@@ -1,0 +1,28 @@
+<application>
+  <component name="FindSettings">
+    <option name="customScope" value="Project Files" />
+    <option name="defaultScopeName" value="Project Files" />
+    <option name="showResultsInSeparateView" value="true" />
+    <option name="SHOW_RESULTS_IN_SEPARATE_VIEW" value="true" />
+    <option name="SEARCH_SCOPE" value="Project Files" />
+    <mask>*.css</mask>
+    <mask>*.html</mask>
+    <mask>*.jsp</mask>
+    <mask>*.properties</mask>
+    <mask>*.java</mask>
+    <mask>*.less</mask>
+    <mask>*.lock, *.json</mask>
+    <mask>shifter.yaml</mask>
+    <mask>redis.yaml</mask>
+    <mask>postgres.yaml</mask>
+    <mask>pom.xml</mask>
+    <mask>!swagger-specification.ts</mask>
+    <mask>*.kt, *.java</mask>
+    <mask>*Resource.kt</mask>
+    <mask>*.kt</mask>
+    <mask>*.xml</mask>
+    <mask>*config.ts</mask>
+    <mask>*.tsx</mask>
+    <mask>*.ts</mask>
+  </component>
+</application>

@@ -1,0 +1,26 @@
+set relativenumber
+set number
+set NERDTree
+
+" Options
+set clipboard+=unnamed
+set timeoutlen=500
+" Mappings
+let mapleader = " "
+imap jj <Esc>
+vmap <leader>c :action CommentByLineComment<CR>
+nmap <leader>u :action FindUsages<CR>
+nmap <leader>i :action GotoImplementation<CR>
+nmap <leader>d :action GotoDeclaration<CR>
+nmap <leader>h :action ShowHoverInfo<CR>
+nmap æ {
+nmap ø }
+nmap Æ [
+nmap Ø ]
+nnoremap <c-o> :action Back<cr>
+nnoremap <c-i> :action Forward<cr>
+nnoremap <c-a> ggVG                                 " Select all
+nmap <Leader>or :action ManageRecentProjects<CR>
+nmap <Leader>e :action SelectInProjectView<CR>
+nmap <Leader>ff :action FindInPath<CR>
+nmap <Leader>rr :action RenameElement<CR>

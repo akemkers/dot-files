@@ -1,0 +1,11 @@
+IdeaVIM
+com.github.copilot
+org.jetbrains.plugins.go
+com.jetbrains.packagesearch.intellij-plugin
+com.intellij.ml.llm
+com.nbadal.ktlint
+com.mallowigi.colorHighlighter
+com.mallowigi
+mobi.hsz.idea.gitignore
+net.ashald.envfile
+aws.toolkit

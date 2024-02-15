@@ -1,0 +1,9 @@
+<application>
+  <component name="GoLibraries">
+    <option name="urls">
+      <list>
+        <option value="file:///opt/homebrew/Cellar/go/1.21.5/bin" />
+      </list>
+    </option>
+  </component>
+</application>
