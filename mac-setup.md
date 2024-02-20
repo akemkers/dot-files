@@ -8,7 +8,7 @@ Denne guiden beskriver hvordan man setter opp en Mac.
 ## Generelle ting å huske for mac i SB1
 
 - Bruker ikke Apple ID, installerer alt gjennom Homebrew isteden.
-- Følg først guiden for [Oppsett av Mac hos SB1U](https://confluence.intern.sparebank1.no/pages/viewpage.action?pageId=792920425)
+- Følg først guiden for [Oppsett av Mac hos SB1U](https://sb1u.atlassian.net/wiki/spaces/MAC/pages/352616452/Sette+opp+utviklingsmilj+p+Mac)
 - Er det noe galt med starting av hostfile-gen? Måtte starte manuelt med `bob docker hostsfilegen start`
 - Gitt min egen bruker skrivetilgang til hosts fila: `sudo chmod u+w /etc/hosts`
 - OBS! Husk å konfigurere `provision-dev` først. (./provision.sh)
