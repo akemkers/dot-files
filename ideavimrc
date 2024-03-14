@@ -1,26 +1,51 @@
-set relativenumber
 set number
 set NERDTree
 
 " Options
 set clipboard+=unnamed
 set timeoutlen=500
+set ignorecase
+set smartcase
+
 " Mappings
 let mapleader = " "
-imap jj <Esc>
-vmap <leader>c :action CommentByLineComment<CR>
-nmap <leader>u :action FindUsages<CR>
-nmap <leader>i :action GotoImplementation<CR>
-nmap <leader>d :action GotoDeclaration<CR>
-nmap <leader>h :action ShowHoverInfo<CR>
+
+" IntelliJ
+
+" manipulation
+vmap <leader>c <Action>(CommentByBlockComment)
+nmap <Leader>rn <Action>(RenameElement)
+
+" search and information
+nmap <leader>u <Action>(FindUsages)
+nmap <Leader>or <Action>(ManageRecentProjects)
+nmap <leader>h <Action>(ShowHoverInfo)
+
+" navigation
+nmap <leader>i <Action>(GotoImplementation)
+nmap <leader>d <Action>(GotoDeclaration)
+nmap <c-o> <Action>(Back)
+nmap <c-i> <Action>(Forward)
+nmap <Leader>e <Action>(SelectInProjectView)
+nmap <Leader>n <Action>(GotoNextError)
+
+" version control
+nmap <leader>j <Action>(VcsShowNextChangeMarker)
+nmap <leader>k <Action>(VcsShowPrevChangeMarker)
+nmap <leader>z <Action>(Vcs.RollbackChangedLines)
+
+" debugging
+nmap <leader>rr <Action>(Resume)
+nmap <leader>ra <Action>(Debug)
+nmap <leader>rs <Action>(Stop)
+nmap <leader>b <Action>(ToggleLineBreakpoint)
+nmap <leader>rc <Action>(RunToCursor)
+nmap <leader>rt <Action>(RunClass)
+
+" Norwegian keyboard
 nmap æ {
 nmap ø }
-nmap Æ [
-nmap Ø ]
-nnoremap <c-o> :action Back<cr>
-nnoremap <c-i> :action Forward<cr>
-nnoremap <c-a> ggVG                                 " Select all
-nmap <Leader>or :action ManageRecentProjects<CR>
-nmap <Leader>e :action SelectInProjectView<CR>
-nmap <Leader>ff :action FindInPath<CR>
-nmap <Leader>rr :action RenameElement<CR>
+nmap 0 ^
+nmap @ $
+nnoremap zC zM
+nnoremap zO zR

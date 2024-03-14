@@ -90,7 +90,6 @@ if ! zplug check --verbose; then
     fi
 fi
 
-
 # custom prompt
 #export PURE_PROMPT_SYMBOL=🤷🏼‍♂️🤠
 
@@ -123,6 +122,10 @@ alias rb='source ~/.zshrc'
 alias bp='vim ~/.zshrc'
 alias branch='git checkout $(git branch | fzf)'
 alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing'
+alias cddotfiles='cd ~/git/dot-files'
+
+# Docker path
+export PATH=$PATH:~/.docker/bin
 
 ## SSH
 # SSH Agent should be running, once

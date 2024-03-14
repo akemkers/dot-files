@@ -2,5 +2,5 @@
 
 set -e
 
-cp ~/.ideavimrc ~/git/config/ideavimrc
-cp ~/.zshrc  ~/git/config/zshrc
+cp ~/.ideavimrc ~/git/dot-files/ideavimrc
+cp ~/.zshrc  ~/git/dot-files/zshrc

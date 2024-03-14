@@ -13,9 +13,10 @@ Denne guiden beskriver hvordan man setter opp en Mac.
 - Gitt min egen bruker skrivetilgang til hosts fila: `sudo chmod u+w /etc/hosts`
 - OBS! Husk å konfigurere `provision-dev` først. (./provision.sh)
 - Det var en del problemer med å kjøre provision-dev. Her hjalp det å være tålmodig. Kjørte mange ganger før det var helt OK.
+- Support og hjelp finner man `#ext-mac-systemdrift`
 
 ## SSH nøkkel
-
+For å koble til stash uten å måtte skrive passordet hver gang. 
 ```bash
 mkdir ~/.ssh 
 cd ~/.ssh 
@@ -24,6 +25,7 @@ ssh-keygen -t ed25519 -b 4096 -C «[Andreas.foldvik.kemkers@sparebank1.no](mailt
 ssh-add id_rsa
 
 ```
+Husk også å sette riktig brukernavn (e-post) i git configen.  
 
 ### SSH agent
 
@@ -43,6 +45,7 @@ ssh-add -t 1d
 fi
 
 ```
+
 - Legg deretter til pub key i brukerinnstillinger i stash
 
 ## Brew
@@ -104,7 +107,7 @@ if ! zplug check --verbose; then
 fi
 ```
 
-Resource zshrc og trykk y for å innstallere plugins
+Source zshrc og trykk y for å innstallere plugins
 
 ### Bashrc
 
@@ -146,6 +149,10 @@ killall Dock
 
 Importer settings fra [dot-files](https://github.com/akemkers/dot-files/tree/main/intellij/settings) 
 File -> Manage IDE Settings -> Import settings
+
+## Neovim 
+1. brew install neovim
+2. installer ønsket pakker. 
 
 ## Browser extensions
 
