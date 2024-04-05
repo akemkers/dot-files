@@ -66,6 +66,15 @@ Installer iTerm2 og endre følgende i preferanser (cmd + ,)
 - Appearance -> General -> Theme -> Minimal
 - Advanced -> Søk: in the minimal theme how prominent should the tab outline be? -> 0.1
 
+### Terminal font
+Last ned NerdFonts fonten som skal brukes i terminalen fra https://github.com/ryanoasis/nerd-fonts
+
+```
+brew tap homebrew/cask-fonts
+brew install font-hack-nerd-font
+```
+Sett deretter opp fonten i preferences i Iterm2
+- Profiles -> Text -> Font -> Nerd Fonts Mono 
 
 Last ned Snazzy theme:
 ```bash
@@ -153,6 +162,19 @@ File -> Manage IDE Settings -> Import settings
 ## Neovim 
 1. brew install neovim
 2. installer ønsket pakker. 
+TODO: Lage skikkelig nvim oppsett. 
+
+
+## Tmux
+1. brew install tmux
+2. Installer TPM (Tmux Plugin Manager). 
+
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+3. Installer tmux.conf fra dot-files
+4. Restart tmux med `tmux source ~/.config/tmux/tmux.conf`
 
 ## Browser extensions
 
@@ -161,8 +183,4 @@ File -> Manage IDE Settings -> Import settings
 - React
 
 ### Ønsket programvare
-
-- Shottr - screenshots
-- Maccey - clipboard
-- Rectangle
 - Logi Options + (for å reverse scroll og få smooth scroll)
