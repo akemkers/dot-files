@@ -1,5 +1,5 @@
-    # If you come from bash you might have to change your $PATH.
-    export PATH=$HOME/bin:/usr/local/bin:$PATH
+# If you come from bash you might have to change your $PATH.
+#export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -126,6 +126,8 @@ alias cddotfiles='cd ~/git/dot-files'
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
+# Overide default utils with gnubin utils. Needed for SB1 scripts that require GNU version, and for some reason TMUX messes up the path
+export PATH="/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 ## SSH
 # SSH Agent should be running, once
@@ -143,5 +145,5 @@ fi
 ## BOB
 [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
 
-source ~/git/bob/bob-zsh-completion
-compdef _bob bob
+#source ~/git/bob/bob-zsh-completion
+#compdef _bob bob

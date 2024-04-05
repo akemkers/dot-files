@@ -1,4 +1,5 @@
 set number
+set relativenumber
 set NERDTree
 
 " Options
@@ -17,9 +18,9 @@ vmap <leader>c <Action>(CommentByBlockComment)
 nmap <Leader>rn <Action>(RenameElement)
 
 " search and information
-nmap <leader>u <Action>(FindUsages)
 nmap <Leader>or <Action>(ManageRecentProjects)
 nmap <leader>h <Action>(ShowHoverInfo)
+nmap <leader>s <Action>(SearchEverywhere)
 
 " navigation
 nmap <leader>i <Action>(GotoImplementation)
@@ -41,6 +42,16 @@ nmap <leader>rs <Action>(Stop)
 nmap <leader>b <Action>(ToggleLineBreakpoint)
 nmap <leader>rc <Action>(RunToCursor)
 nmap <leader>rt <Action>(RunClass)
+
+" tabs
+nmap <leader>pt <Action>(PinActiveEditorTab)
+
+" Vim remaps
+
+" Indent right and keep text selected
+vnoremap > >gv
+" Indent left and keep text selected
+vnoremap < <gv
 
 " Norwegian keyboard
 nmap æ {
