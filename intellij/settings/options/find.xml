@@ -22,7 +22,7 @@
     <mask>*.kt</mask>
     <mask>*.xml</mask>
     <mask>*config.ts</mask>
-    <mask>*.tsx</mask>
     <mask>*.ts</mask>
+    <mask>*.tsx</mask>
   </component>
 </application>

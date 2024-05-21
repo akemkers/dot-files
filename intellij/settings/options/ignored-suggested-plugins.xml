@@ -1,0 +1,11 @@
+<application>
+  <component name="IgnoredPluginSuggestions">
+    <option name="pluginIds">
+      <list>
+        <option value="aws.toolkit" />
+        <option value="com.intellij.bigdatatools.kafka" />
+        <option value="com.jetbrains.jax.ws" />
+      </list>
+    </option>
+  </component>
+</application>

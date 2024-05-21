@@ -14,6 +14,19 @@
             </list>
           </value>
         </entry>
+        <entry key="PLUGINS">
+          <value>
+            <list>
+              <option value="IdeaVIM" />
+              <option value="com.github.catppuccin.jetbrains" />
+              <option value="com.github.catppuccin.jetbrains_icons" />
+              <option value="com.jetbrains.packagesearch.intellij-plugin" />
+              <option value="com.mallowigi.colorHighlighter" />
+              <option value="mobi.hsz.idea.gitignore" />
+              <option value="org.jetbrains.plugins.go" />
+            </list>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="migrationFromOldStorageChecked" value="true" />

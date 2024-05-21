@@ -1,5 +1,7 @@
 <application>
   <component name="aws">
+    <option name="QMigrationNotificationShownOnce" value="true" />
+    <option name="autoUpdateFeatureNotificationShownOnce" value="true" />
     <option name="promptedForTelemetry" value="true" />
   </component>
   <component name="codewhispererUserGroupSettings">

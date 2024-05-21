@@ -1,11 +1,11 @@
+aws.toolkit.core
 IdeaVIM
-com.github.copilot
+com.github.catppuccin.jetbrains
 org.jetbrains.plugins.go
+com.github.copilot
 com.jetbrains.packagesearch.intellij-plugin
-com.intellij.ml.llm
-com.nbadal.ktlint
+com.github.catppuccin.jetbrains_icons
 com.mallowigi.colorHighlighter
-com.mallowigi
 mobi.hsz.idea.gitignore
 net.ashald.envfile
 aws.toolkit

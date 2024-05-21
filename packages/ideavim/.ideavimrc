@@ -1,62 +1,70 @@
 set number
-set relativenumber
 set NERDTree
 
 " Options
 set clipboard+=unnamed
-set timeoutlen=500
+set timeoutlen=2000
 set ignorecase
 set smartcase
 
 " Mappings
 let mapleader = " "
 
+nnoremap <leader>rc :source ~/.ideavimrc<CR>
+
 " IntelliJ
 
 " manipulation
-vmap <leader>c <Action>(CommentByBlockComment)
-nmap <Leader>rn <Action>(RenameElement)
+vmap <leader>cc <Action>(CommentByBlockComment)
+nmap <Leader>cr <Action>(RenameElement)
+nmap <leader>cf <Action>(ReformatCode)
+nmap <leader>ca <Action>(ShowIntentionActions)
 
 " search and information
+nmap K <Action>(ShowHoverInfo)
 nmap <Leader>or <Action>(ManageRecentProjects)
-nmap <leader>h <Action>(ShowHoverInfo)
-nmap <leader>s <Action>(SearchEverywhere)
+nmap <leader>sg <Action>(FindInPath)
+nmap <leader>, <Action>(RecentFiles)
+nmap <leader>ff <Action>(SearchEverywhere)
+nmap <leader><leader> <Action>(SearchEverywhere)
+
 
 " navigation
-nmap <leader>i <Action>(GotoImplementation)
-nmap <leader>d <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gd <Action>(GotoDeclaration)
+nmap gr <Action>(FindUsages)
 nmap <c-o> <Action>(Back)
 nmap <c-i> <Action>(Forward)
 nmap <Leader>e <Action>(SelectInProjectView)
 nmap <Leader>n <Action>(GotoNextError)
 
 " version control
-nmap <leader>j <Action>(VcsShowNextChangeMarker)
-nmap <leader>k <Action>(VcsShowPrevChangeMarker)
-nmap <leader>z <Action>(Vcs.RollbackChangedLines)
+nmap <leader>ghn <Action>(VcsShowNextChangeMarker)
+nmap <leader>ghp <Action>(VcsShowPrevChangeMarker)
+nmap <leader>ghr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>ghd <Action>(Compare.SameVersion)
 
 " debugging
-nmap <leader>rr <Action>(Resume)
-nmap <leader>ra <Action>(Debug)
-nmap <leader>rs <Action>(Stop)
-nmap <leader>b <Action>(ToggleLineBreakpoint)
-nmap <leader>rc <Action>(RunToCursor)
-nmap <leader>rt <Action>(RunClass)
+nmap <leader>dr <Action>(Resume)
+nmap <leader>da <Action>(Debug)
+nmap <leader>ds <Action>(Stop)
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+nmap <leader>dc <Action>(RunToCursor)
+
+" runTest
+nmap <leader>tr <Action>(RunClass)
 
 " tabs
+nmap <leader>sv <Action>(SplitVertically)
+nmap <leader>sh <Action>(SplitHorizontally)
 nmap <leader>pt <Action>(PinActiveEditorTab)
+nmap <leader>pc <Action>(CloseAllUnpinnedEditors)
+nmap H <Action>(PreviousTab)
+nmap L <Action>(NextTab)
+nmap <c-h> <Action>(PrevSplitter)
+nmap <c-l> <Action>(NextSplitter)
 
-" Vim remaps
-
-" Indent right and keep text selected
+" Indent and keep text selected
 vnoremap > >gv
-" Indent left and keep text selected
 vnoremap < <gv
 
-" Norwegian keyboard
-nmap æ {
-nmap ø }
-nmap 0 ^
-nmap @ $
-nnoremap zC zM
-nnoremap zO zR

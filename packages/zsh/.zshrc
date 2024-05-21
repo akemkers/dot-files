@@ -124,6 +124,7 @@ alias branch='git checkout $(git branch | fzf)'
 alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing'
 alias cddotfiles='cd ~/git/dot-files'
 alias ll='ls -al'
+alias bi='brew install --appdir ~/Applications'
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
