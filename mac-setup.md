@@ -105,13 +105,17 @@ Endre følgende:
 - Tracking speed på mus, og cursor på tastatur.
 - I “Trackpad” Enabler `App expose` under “More gestures”. Swipe ned med tre fingre for å se alle aktive vinduer for en gitt app
 - i “Desktop & Dock”, sett “Automatically hide and show the dock.
-- Fjerne delay på dock åpning:
 
+Fjerne delay på dock åpning:
 ```
 defaults write com.apple.dock autohide-delay -float 0.2
 defaults write com.apple.dock autohide-time-modifier -float 0.2
 killall Dock
+```
 
+Hindre at holding av j og k ikke fungerer
+```
+defaults write -g ApplePressAndHoldEnabled -bool false
 ```
 
 ## IntelliJ
