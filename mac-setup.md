@@ -16,8 +16,8 @@ Denne guiden beskriver hvordan man setter opp en Mac.
 - Det var en del problemer med å kjøre provision-dev. Her hjalp det å være tålmodig. Kjørte mange ganger før det var helt OK.
 - Support og hjelp finner man `#ext-mac-systemdrift`
 
-## SSH nøkkel
-For å koble til stash uten å måtte skrive passordet hver gang. 
+## SSH tilgang til Stash/GitHub
+For å koble til stash og Github uten å måtte skrive passordet hver gang. 
 ```bash
 mkdir ~/.ssh 
 cd ~/.ssh 
@@ -52,7 +52,6 @@ fi
 ## Brew
 
 Installer følgende:
-
 - **rectangle** (For å styre vinduer) -  `brew install rectangle`
 - **shottr** (Bedre screenshotting) Endret Shortcut for screenshot til `cmd + shift + s`
 - **maccy** (clip board manager for Mac) Endret shortcut til `cmd + shift + v`
@@ -93,31 +92,9 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 brew install zplug
 ```
 
-Legg til følgende i `zshrc`: 
-
-```bash
-export ZPLUG_HOME=/opt/homebrew/opt/zplug
-source $ZPLUG_HOME/init.zsh
-
-zplug "mafredri/zsh-async", from:github
-zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2
-
-zplug load
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-```
-
-Source zshrc og trykk y for å innstallere plugins
-
-
-
-
+## dot-files
+Klon dette repoet [dot-files](https://github.com/akemkers/dot-files)
+Følg readme for å installere alle nødvendig dot-filer. 
 
 ## Innstillinger i OSX
 
