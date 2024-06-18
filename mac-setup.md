@@ -55,6 +55,8 @@ Installer følgende:
 - **rectangle** (For å styre vinduer) -  `brew install rectangle`
 - **shottr** (Bedre screenshotting) Endret Shortcut for screenshot til `cmd + shift + s`
 - **maccy** (clip board manager for Mac) Endret shortcut til `cmd + shift + v`
+- **go** `brew install go`
+- **rg** rip-grep trengs for at fuzzy søket i nvim skal fungere `brew install rg`t
 
 ## iTerm2
 
@@ -124,9 +126,11 @@ Noen manuelle steg må også gjøres:
 - Sett også opp fonten på menyen til å være ca det samme som i editor: setttigs -> Appearance & Behavior -> Appearance -> Use custom font -> Inter 16
 
 ## Neovim 
-1. brew install neovim
-2. installer ønsket pakker. 
-TODO: Lage skikkelig nvim oppsett. 
+1. `brew install neovim`
+2. Installer [lazyvim](https://www.lazyvim.org/installation)
+3. 
+
+nvim configen skal ha blitt installert gjennom dot-files.
 
 
 ## Tmux
@@ -138,14 +142,14 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
 3. Installer tmux.conf fra dot-files
-4. Restart tmux med `tmux source ~/.config/tmux/tmux.conf`
+t4. Restart tmux med `tmux source ~/.config/tmux/tmux.conf`
 
 ## Browser extensions
 
 - Vimium
 - 1password
-- json prettier
-
+- json formatter
+- React Developer Toolst
 
 
 # Feilsøking
