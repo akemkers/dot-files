@@ -10,7 +10,8 @@ Denne guiden beskriver hvordan man setter opp en Mac.
 - Bruker ikke Apple ID, installerer alt gjennom Homebrew isteden.
 - Følg først guiden for [Oppsett av Mac hos SB1U](https://sb1u.atlassian.net/wiki/spaces/MAC/pages/352616452/Sette+opp+utviklingsmilj+p+Mac)
 - Er det noe galt med starting av hostfile-gen? Måtte starte manuelt med `bob docker hostsfilegen start`
-- Gitt min egen bruker skrivetilgang til hosts fila: `sudo chmod u+w /etc/hosts`
+- Gitt min egen bruker skrivetilgang til hosts fila: `sudo chmod u+w /etc/hosts` (18. juni. Ser ikke ut til å fungere lenger dette her)
+- Hvis det over ikke fungerer så kan man kjøre vim i sudo mode for å editere den 
 - OBS! Husk å konfigurere `provision-dev` først. (./provision.sh)
 - Det var en del problemer med å kjøre provision-dev. Her hjalp det å være tålmodig. Kjørte mange ganger før det var helt OK.
 - Support og hjelp finner man `#ext-mac-systemdrift`
@@ -46,7 +47,7 @@ fi
 
 ```
 
-- Legg deretter til pub key i brukerinnstillinger i stash
+- Legg deretter til pub key i brukerinnstillinger i stash og github
 
 ## Brew
 
@@ -60,8 +61,6 @@ Installer følgende:
 
 Installer iTerm2 og endre følgende i preferanser (cmd + ,)
 
-- Profiles -> Text -> Font -> Menlo 
-- Profiles -> Text -> Font -> Størrelse 14
 - Profiles -> Window -> Settings for new Windows -> Columns: 300, Rows: 50
 - Appearance -> General -> Theme -> Minimal
 - Advanced -> Søk: in the minimal theme how prominent should the tab outline be? -> 0.1
@@ -70,20 +69,18 @@ Installer iTerm2 og endre følgende i preferanser (cmd + ,)
 Last ned NerdFonts fonten som skal brukes i terminalen fra https://github.com/ryanoasis/nerd-fonts
 
 ```
-brew tap homebrew/cask-fonts
 brew install font-hack-nerd-font
 ```
 Sett deretter opp fonten i preferences i Iterm2
 - Profiles -> Text -> Font -> Nerd Fonts Mono 
 
-Last ned Snazzy theme:
+Last ned Catppuccin Macchiato theme:
 ```bash
-(curl -Ls https://raw.githubusercontent.com/sindresorhus/iterm2-snazzy/main/Snazzy.itermcolors > /tmp/Snazzy.itermcolors && open /tmp/Snazzy.itermcolors)
+curl -Ls https://raw.githubusercontent.com/catppuccin/iterm/main/colors/catppuccin-macchiato.itermcolors > /tmp/catpuccin-macchiato.itermcolors && open /tmp/catpuccin-macchiato.itermcolors
 ```
 
 Aktiver det med:
-Profiles -> Color Presets -> Snazzy
-
+Profiles -> Color Presets -> Catppuccin Macchiato
 
 ### Oh my zsh
 
@@ -118,24 +115,8 @@ fi
 
 Source zshrc og trykk y for å innstallere plugins
 
-### Bashrc
-
-Har hatt problem med at bash blir kjørt isteden for zsh, feks gjennom intellij subprosesser. Da må homebrew scripts lastes for bash i tillegg. Lag en `.bashrc` med følgende
-
-```jsx
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-
-### (SpareBank1) Aktiver bash kommandoer (bob etc)
 
 
-```bash
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Bob commands
-[ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
-```
 
 
 ## Innstillinger i OSX
@@ -159,6 +140,12 @@ killall Dock
 Importer settings fra [dot-files](https://github.com/akemkers/dot-files/tree/main/intellij/settings) 
 File -> Manage IDE Settings -> Import settings
 
+Noen manuelle steg må også gjøres:
+- Ta i bruk det importerte keymappet: Keymap -> Velg "macOS BRUK DENNE".
+- Ta i bruk catppuccin themet i menyen: settings -> Appearance -> theme: Catpuccin
+- På samme sted: bytt til å bruke themet _uten_ italics.
+- Sett også opp fonten på menyen til å være ca det samme som i editor: setttigs -> Appearance & Behavior -> Appearance -> Use custom font -> Inter 16
+
 ## Neovim 
 1. brew install neovim
 2. installer ønsket pakker. 
@@ -179,8 +166,32 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ## Browser extensions
 
 - Vimium
+- 1password
+- json prettier
+
+
+
+# Feilsøking
+
+### Bash blir kjørt isteden for zsh i terminalen til Intellij
+
+feks gjennom intellij subprosesser. Da må homebrew scripts lastes for bash i tillegg. Lag en `.bashrc` med følgende
+
+```jsx
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
 - JSON formatter
 - React
 
-### Ønsket programvare
+### Bash kommandoer (bob etc) blir ikke autocompleted
+
+```bash
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Bob commands
+[ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
+```
+
+## Ønsket programvare
 - Logi Options + (for å reverse scroll og få smooth scroll)
