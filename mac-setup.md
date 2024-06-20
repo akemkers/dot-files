@@ -178,5 +178,13 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
 ```
 
+### Tmux installerer ikke plugins automatisk
+Fikk et problem der tmux ikke automatisk installerte plugins av en eller annen grunn. Løsningen på dette var å kjøre installeringsscriptet manuelt.
+```
+cd /Users/andreas.foldvik.kemkers/.tmux/plugins
+./install_plugins.sh
+```
+
+
 ## Ønsket programvare
 - Logi Options + (for å reverse scroll og få smooth scroll)
