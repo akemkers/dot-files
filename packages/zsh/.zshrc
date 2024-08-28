@@ -119,12 +119,13 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 alias rb='source ~/.zshrc'
-alias bp='vim ~/.zshrc'
+alias bp='nvim ~/.zshrc'
 alias branch='git checkout $(git branch | fzf)'
 alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing'
 alias cddotfiles='cd ~/git/dot-files'
 alias ll='ls -al'
 alias bi='brew install --appdir ~/Applications'
+alias lg='lazygit'
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
