@@ -129,7 +129,9 @@ alias lg='lazygit'
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
+
 # Overide default utils with gnubin utils. Needed for SB1 scripts that require GNU version, and for some reason TMUX messes up the path
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 ## SSH
