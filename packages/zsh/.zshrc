@@ -126,6 +126,7 @@ alias cddotfiles='cd ~/git/dot-files'
 alias ll='ls -al'
 alias bi='brew install --appdir ~/Applications'
 alias lg='lazygit'
+alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
@@ -152,3 +153,5 @@ fi
 
 #source ~/git/bob/bob-zsh-completion
 #compdef _bob bob
+export PATH="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
