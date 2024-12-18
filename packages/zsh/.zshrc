@@ -155,3 +155,7 @@ fi
 #compdef _bob bob
 export PATH="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+# GO PATH
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
