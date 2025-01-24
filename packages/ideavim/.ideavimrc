@@ -27,7 +27,7 @@ nmap K <Action>(ShowHoverInfo)
 nmap <Leader>or <Action>(ManageRecentProjects)
 nmap <leader>sg <Action>(FindInPath)
 nmap <leader>, <Action>(RecentFiles)
-nmap <leader>ff <Action>(SearchEverywhere)
+nmap <leader>sf <Action>(SearchEverywhere)
 nmap <leader><leader> <Action>(SearchEverywhere)
 
 
@@ -41,11 +41,12 @@ nmap <Leader>e <Action>(SelectInProjectView)
 nmap <Leader>n <Action>(GotoNextError)
 
 " version control
-nmap <leader>ghn <Action>(VcsShowNextChangeMarker)
-nmap <leader>ghp <Action>(VcsShowPrevChangeMarker)
-nmap <leader>ghr <Action>(Vcs.RollbackChangedLines)
-nmap <leader>ghd <Action>(Compare.SameVersion)
-nmap <leader>ghh <Action>(Git.CompareWithBranch)
+nmap <leader>gg <Action>(ActivateVersionControlToolWindow)
+nmap <leader>hn <Action>(VcsShowNextChangeMarker)
+nmap <leader>hp <Action>(VcsShowPrevChangeMarker)
+nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>hd <Action>(Compare.SameVersion)
+nmap <leader>hh <Action>(Git.CompareWithBranch)
 
 " debugging
 nmap <leader>dr <Action>(Resume)

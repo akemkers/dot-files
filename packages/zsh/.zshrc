@@ -126,7 +126,9 @@ alias cddotfiles='cd ~/git/dot-files'
 alias ll='ls -al'
 alias bi='brew install --appdir ~/Applications'
 alias lg='lazygit'
+alias nvim-lazy='NVIM_APPNAME="nvim-lazy" nvim'
 alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
+alias nvim-pkaz='NVIM_APPNAME="nvim-pkaz" nvim'
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
