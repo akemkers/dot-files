@@ -121,7 +121,7 @@ source $ZSH/oh-my-zsh.sh
 alias rb='source ~/.zshrc'
 alias bp='nvim ~/.zshrc'
 alias branch='git checkout $(git branch | fzf)'
-alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing'
+alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing/kundefront-pm-aksjer/'
 alias cddotfiles='cd ~/git/dot-files'
 alias ll='ls -al'
 alias bi='brew install --appdir ~/Applications'
@@ -147,7 +147,7 @@ fi
 # Add identities if none are added
 if ! ssh-add -l &>/dev/null; then
 echo Adding identities to SSH Agent
-find ~/.ssh -type f -regex '.*/id_[^.]+$' | xargs ssh-add
+find ~/.ssh -type f -name 'id_*' ! -name '*.pub' | xargs ssh-add
 fi
 
 ## BOB
@@ -161,3 +161,7 @@ export PHP_INI_SCAN_DIR="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$P
 # GO PATH
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+
+# Zoxide
+eval "$(zoxide init zsh)"
+alias cd="z"
