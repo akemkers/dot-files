@@ -67,6 +67,7 @@ nmap H <Action>(PreviousTab)
 nmap L <Action>(NextTab)
 nmap <c-h> <Action>(PrevSplitter)
 nmap <c-l> <Action>(NextSplitter)
+nmap <leader>bd <Action>(CloseContent)
 
 " Zen 
 nmap <leader>z <Action>(HideAllWindows)
