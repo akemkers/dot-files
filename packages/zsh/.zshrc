@@ -163,3 +163,11 @@ export PATH=$PATH:$GOPATH/bin
 # Zoxide
 eval "$(zoxide init zsh)"
 alias cd="z"
+
+# secrets
+if ! [ -f ~/.zsh_secrets ]; then
+  echo "Secrets file not found"
+else
+  . ~/.zsh_secrets
+fi
+
