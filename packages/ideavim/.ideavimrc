@@ -16,7 +16,7 @@ nnoremap <leader>rc :source ~/.ideavimrc<CR>
 " IntelliJ
 
 " manipulation
-vmap <leader>cc <Action>(CommentByBlockComment)
+vmap <leader>gc <Action>(CommentByBlockComment)
 nmap <Leader>cr <Action>(RenameElement)
 nmap <leader>cf <Action>(ReformatCode)
 nmap <leader>ca <Action>(ShowIntentionActions)
@@ -69,6 +69,7 @@ nmap L <Action>(NextTab)
 nmap <c-h> <Action>(PrevSplitter)
 nmap <c-l> <Action>(NextSplitter)
 nmap <leader>bd <Action>(CloseContent)
+nmap <leader>bo <Action>(CloseAllEditorsButActive)
 
 " Zen 
 nmap <leader>z <Action>(HideAllWindows)

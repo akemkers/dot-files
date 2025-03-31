@@ -171,3 +171,12 @@ else
   . ~/.zsh_secrets
 fi
 
+alias dvim="docker run --detach-keys='ctrl-z,z' -v utvikler-home:/home/user -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -p 5173:5173 -p 8080:8080 -it --rm dvim zsh"
+
+
+# Node version manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+
