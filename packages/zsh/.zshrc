@@ -84,10 +84,7 @@ zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2
 zplug load
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+   echo; zplug install
 fi
 
 # custom prompt
