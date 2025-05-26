@@ -3,7 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME=""
+ZSH_THEME="af-magic"
 
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
@@ -30,19 +30,20 @@ plugins=(git)
 
 if [[ "$(uname)" == "Darwin" ]]; then
   export ZPLUG_HOME=/opt/homebrew/opt/zplug
-else
-  export ZPLUG_HOME=/usr/share/zplug
-fi
-source $ZPLUG_HOME/init.zsh
 
-zplug "mafredri/zsh-async", from:github
-zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2
-
-zplug load
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-   echo; zplug install
+  source $ZPLUG_HOME/init.zsh
+  
+  zplug "mafredri/zsh-async", from:github
+  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+  zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2
+  
+  zplug load
+  # Install plugins if there are plugins that have not been installed
+  if ! zplug check --verbose; then
+     echo; zplug install
+  fi
+  else
+    export ZPLUG_HOME=/usr/share/zplug
 fi
 
 # custom prompt
