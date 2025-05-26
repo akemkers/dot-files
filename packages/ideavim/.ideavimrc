@@ -1,4 +1,3 @@
-set relativenumber
 set number
 set NERDTree
 
@@ -16,7 +15,7 @@ nnoremap <leader>rc :source ~/.ideavimrc<CR>
 " IntelliJ
 
 " manipulation
-vmap <leader>gc <Action>(CommentByBlockComment)
+vmap gc <Action>(CommentByBlockComment)
 nmap <Leader>cr <Action>(RenameElement)
 nmap <leader>cf <Action>(ReformatCode)
 nmap <leader>ca <Action>(ShowIntentionActions)
@@ -27,7 +26,7 @@ nmap K <Action>(ShowHoverInfo)
 nmap <Leader>or <Action>(ManageRecentProjects)
 nmap <leader>sg <Action>(FindInPath)
 nmap <leader>, <Action>(RecentFiles)
-nmap <leader>sf <Action>(SearchEverywhere)
+nmap <leader>sf <Action>(GotoFile)
 nmap <leader><leader> <Action>(SearchEverywhere)
 
 
@@ -39,7 +38,7 @@ nmap gs <Action>(GotoSuperMethod)
 nmap <c-o> <Action>(Back)
 nmap <c-i> <Action>(Forward)
 nmap <Leader>e <Action>(SelectInProjectView)
-nmap <Leader>n <Action>(GotoNextError)
+nmap <Leader>dn <Action>(GotoNextError)
 
 " version control
 nmap <leader>gg <Action>(ActivateVersionControlToolWindow)

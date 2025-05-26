@@ -97,6 +97,9 @@ fi
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
+# Rust PATH
+export PATH=$PATH:$HOME/.cargo/bin
+
 # Zoxide
 eval "$(zoxide init zsh)"
 alias cd="z"
@@ -108,7 +111,8 @@ else
   . ~/.zsh_secrets
 fi
 
-
+# Enable vim mode for zsh
+bindkey -v
 
 
 
