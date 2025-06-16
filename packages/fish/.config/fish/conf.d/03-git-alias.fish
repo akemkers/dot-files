@@ -1,5 +1,6 @@
 alias gst='git status'
 alias gaa='git add --all'
+alias ga='git add'
 alias gl='git pull'
 alias gp='git push'
 alias gcm='git commit -m'
