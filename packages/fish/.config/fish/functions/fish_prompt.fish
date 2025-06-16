@@ -25,6 +25,27 @@ function fish_prompt --description 'Write out the prompt'
                 set prompt_status $status_color "[" $last_status "]" $normal
         end
     
-        echo -s (prompt_login) ' ' $cwd_color (prompt_pwd) $vcs_color (fish_vcs_prompt) $normal ' ' $prompt_status
+        echo -s $cwd_color (prompt_pwd) $vcs_color ' '  (fish_vcs_prompt) $normal ' ' 
         echo -n -s $status_color $suffix ' ' $normal
+end
+
+function fish_mode_prompt
+  switch $fish_bind_mode
+    case default
+      set_color $fish_color_command
+      echo 'N '
+    case insert
+      set_color --bold green
+      echo 'I '
+    case replace_one
+      set_color --bold green
+      echo 'R '
+    case visual
+      set_color --bold brmagenta
+      echo 'V '
+    case '* '
+      set_color --bold red
+      echo '? '
+  end
+  set_color normal
 end
