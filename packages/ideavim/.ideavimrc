@@ -6,9 +6,13 @@ set clipboard+=unnamed
 set timeoutlen=2000
 set ignorecase
 set smartcase
-
+set hlsearch
+set incsearch
 " Mappings
 let mapleader = " "
+
+" clear highligh on esc
+nnoremap <silent> <esc> :noh<return><esc>
 
 nnoremap <leader>rc :source ~/.ideavimrc<CR>
 
@@ -23,11 +27,10 @@ nmap <leader>co <Action>(OptimizeImports)
 
 " search and information
 nmap K <Action>(ShowHoverInfo)
-nmap <Leader>or <Action>(ManageRecentProjects)
+nmap <Leader>sr <Action>(ManageRecentProjects)
 nmap <leader>sg <Action>(FindInPath)
-nmap <leader>, <Action>(RecentFiles)
 nmap <leader>sf <Action>(GotoFile)
-nmap <leader><leader> <Action>(SearchEverywhere)
+nmap <leader><leader> <Action>(RecentFiles)
 
 
 " navigation
@@ -38,10 +41,11 @@ nmap gs <Action>(GotoSuperMethod)
 nmap <c-o> <Action>(Back)
 nmap <c-i> <Action>(Forward)
 nmap <Leader>e <Action>(SelectInProjectView)
+nmap -  <Action>(SelectInProjectView)
 nmap <Leader>dn <Action>(GotoNextError)
 
 " version control
-nmap <leader>gg <Action>(ActivateVersionControlToolWindow)
+nmap <leader>gv <Action>(ActivateVersionControlToolWindow)
 nmap <leader>hn <Action>(VcsShowNextChangeMarker)
 nmap <leader>hp <Action>(VcsShowPrevChangeMarker)
 nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
