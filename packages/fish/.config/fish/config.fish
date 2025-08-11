@@ -3,6 +3,7 @@ if status is-interactive
     fish_vi_key_bindings
     set -U fish_greeting
 
+    set -gx EDITOR nvim
 
     # Homebrew
     fish_add_path /opt/homebrew/bin
