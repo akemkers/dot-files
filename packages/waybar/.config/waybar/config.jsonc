@@ -4,7 +4,7 @@
   "reload_style_on_change": true,
   "modules-left": ["clock","custom/pacman","tray"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["group/group-expand","bluetooth","network","battery"],
+  "modules-right": ["group/group-sensors","group/group-connections"],
 
 
   "hyprland/workspaces": {
@@ -20,22 +20,30 @@
   },
 /* -- Grouping --*/
 
-  "custom/group-expand": {
+  "custom/group-icon-expand": {
     "format": "",
     "tooltip": false
   },
-  "custom/group-end-marker":{
+  "custom/group-icon-end":{
     "format": "|",
     "tooltip": false
   },
-  "group/group-expand": {
+  // "group/group-connections": {
+  //   "orientation": "horizontal",
+  //   "drawer": {
+  //     "transition-duration": 600,
+  //     "transition-to-left": true,
+  //     "click-to-reveal": true
+  //   },
+  //   "modules": ["custom/group-icon-expand", "cpu","memory","temperature","custom/group-icon-end"],
+  // },
+  "group/group-connections": {
     "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 600,
-      "transition-to-left": true,
-      "click-to-reveal": true
-    },
-    "modules": ["custom/group-expand", "cpu","memory","temperature","custom/group-end-marker"],
+    "modules": ["bluetooth", "network", "battery"]
+  },
+  "group/group-sensors": {
+    "orientation": "horizontal",
+    "modules": ["custom/nvidia", "custom/fans", "power-profiles-daemon"]
   },
 
   /* -- WIDGETS --*/
@@ -124,10 +132,24 @@
     },
     "on-click": "pavucontrol"
   },
+  "power-profiles-daemon": {
+    "icon-size": 24,
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
   "custom/nvidia": {
     "exec": "$HOME/.config/scripts/check_dgpu_usage.sh",
-    "format": "{} 🖥️",
-    "interval": 60
+    "format": "{}",
+    "interval": 60,
+    "tooltip": false,
+    // "escape": true // Important so Pango markup is not escaped
   },
   "custom/fans": {
     "format": "{}",

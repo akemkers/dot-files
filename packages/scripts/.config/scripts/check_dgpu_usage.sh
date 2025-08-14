@@ -12,8 +12,12 @@
 # fi
 
 
+ICON="󰬕"
+
 if [[ -d /proc/driver/nvidia/gpus/ ]]; then
-    echo "Nvidia Enabled"
+    # Green when enabled
+    echo "<span color='#76b900'>$ICON</span>"
 else
-    echo "Nvidia Disabled"
+    # Red when disabled
+    echo "<span color='#ff5555'>$ICON</span>"
 fi
