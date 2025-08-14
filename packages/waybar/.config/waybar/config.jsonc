@@ -4,7 +4,7 @@
   "reload_style_on_change": true,
   "modules-left": ["clock","custom/pacman","tray"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["group/expand","bluetooth","network","battery"],
+  "modules-right": ["group/group-expand","bluetooth","network","battery"],
 
 
   "hyprland/workspaces": {
@@ -18,6 +18,28 @@
       "*": [ 1,2,3,4,5 ]
     }
   },
+/* -- Grouping --*/
+
+  "custom/group-expand": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/group-end-marker":{
+    "format": "|",
+    "tooltip": false
+  },
+  "group/group-expand": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 600,
+      "transition-to-left": true,
+      "click-to-reveal": true
+    },
+    "modules": ["custom/group-expand", "cpu","memory","temperature","custom/group-end-marker"],
+  },
+
+  /* -- WIDGETS --*/
+
   "clock": {
     "format": "{:%H:%M:%S} ",
     "interval": 1,   
@@ -64,41 +86,6 @@
       "󰁹"
     ],
   },
-  "custom/pacman": {
-    "format": "󰅢 {}",
-    "interval": 30,   
-    "exec": "$HOME/.config/scripts/check_package_updates.sh",
-    "exec-if": "exit 0",
-    // "on-click": "kitty sh -c 'yay -Syu; echo Done - Press enter to exit; read'; pkill -SIGRTMIN+8 waybar",
-    "signal": 8,
-    "tooltip": false,
-  },
-  "custom/expand": {
-    "format": "",
-    "tooltip": false
-  },
-  "custom/endpoint":{
-    "format": "|",
-    "tooltip": false
-  },
-  "group/expand": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 600,
-      "transition-to-left": true,
-      "click-to-reveal": true
-    },
-    "modules": ["custom/expand", "custom/colorpicker","cpu","memory","temperature","custom/endpoint"],
-  },
-
-  "custom/colorpicker": {
-    "format": "{}",
-    "return-type": "json",
-    "interval": "once",
-    "exec": "~/.config/waybar/scripts/colorpicker.sh -j",
-    "on-click": "~/.config/waybar/scripts/colorpicker.sh",
-    "signal": 1
-  },
   "cpu": {
     "format": "󰻠",
     "tooltip": true
@@ -114,17 +101,6 @@
     "icon-size": 14,
     "spacing": 10
   },
-  "custom/nvidia": {
-    "exec": "$HOME/.config/scripts/check_dgpu_usage.sh",
-    "format": "{} 🖥️",
-    "interval": 60
-  },
-  "custom/fans": {
-    "format": "{}",
-    "exec": "$HOME/.config/scripts/check_fan_status.sh",
-    "interval": 5
-  },
-
   "pulseaudio": {
     "scroll-step": 1, // %, can be a float
     "format": "{volume}% {icon} {format_source}",
@@ -148,4 +124,24 @@
     },
     "on-click": "pavucontrol"
   },
+  "custom/nvidia": {
+    "exec": "$HOME/.config/scripts/check_dgpu_usage.sh",
+    "format": "{} 🖥️",
+    "interval": 60
+  },
+  "custom/fans": {
+    "format": "{}",
+    "exec": "$HOME/.config/scripts/check_fan_status.sh",
+    "interval": 5
+  },
+  "custom/pacman": {
+    "format": "󰅢 {}",
+    "interval": 30,   
+    "exec": "$HOME/.config/scripts/check_package_updates.sh",
+    "exec-if": "exit 0",
+    // "on-click": "kitty sh -c 'yay -Syu; echo Done - Press enter to exit; read'; pkill -SIGRTMIN+8 waybar",
+    "signal": 8,
+    "tooltip": false,
+  },
+
 } 
