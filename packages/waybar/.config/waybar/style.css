@@ -37,16 +37,45 @@ window#waybar{
 }
 #custom-nvidia {
   font-size: 20px;
-  margin-right: 10px;
+  margin: 0 10px;
 }
+/* Fan module base styling */
 #custom-fans {
-  font-size: 15px;
-  margin-right: 10px;
+    margin-right: 6px;
+    transition: all 0.3s ease;
+}
+
+/* Fan off state - gray/muted */
+#custom-fans.fan-off {
+    margin-right: 4px;
+    color: #888888;
+}
+
+/* Low fan speed - green (0-33%) */
+#custom-fans.fan-low, #power-profiles-daemon.power-saver, #battery.charging {
+    color: #26A65B;
+}
+
+/* Medium fan speed - yellow/orange (34-66%) */
+#custom-fans.fan-medium, #power-profiles-daemon.balanced, #battery.warning:not(.charging){
+    color: #FFBE61;
+}
+
+/* High fan speed - red (67-100%) */
+#custom-fans.fan-high, #power-profiles-daemon.performance, #battery.critical:not(.charging) {
+    color: #F53C3C;
+}
+
+/* Hover effects */
+#custom-fans:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* transform: translateY(-1px); */
 }
 #power-profiles-daemon {
   margin-right: 10px
 
 }
+
 tooltip {
     background:@background;
     color: @color7;
@@ -119,19 +148,9 @@ tooltip {
     padding: 0px 5px;
     transition: all .3s ease;
     color:@color7;
-
-
-}
-#battery.charging {
-    color: #26A65B;
-}
-
-#battery.warning:not(.charging) {
-    color: #ffbe61;
 }
 
 #battery.critical:not(.charging) {
-    color: #f53c3c;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;

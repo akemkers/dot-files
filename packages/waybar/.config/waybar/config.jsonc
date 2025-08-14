@@ -152,9 +152,14 @@
     // "escape": true // Important so Pango markup is not escaped
   },
   "custom/fans": {
-    "format": "{}",
+    "format": "{icon} {text}",
+    "return-type": "json",
     "exec": "$HOME/.config/scripts/check_fan_status.sh",
-    "interval": 5
+    "interval": 5,
+    "format-icons": {
+      "off": "󰠝",
+      "on": "󰈐"
+    }
   },
   "custom/pacman": {
     "format": "󰅢 {}",
