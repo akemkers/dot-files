@@ -1,7 +1,5 @@
 #! /bin/bash
 
-
-
 # output=$(nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,nounits,noheader )
 #
 #
@@ -12,12 +10,18 @@
 # fi
 
 
-ICON="󰬕"
+TEXT="󰬕"
 
 if [[ -d /proc/driver/nvidia/gpus/ ]]; then
-    # Green when enabled
-    echo "<span color='#76b900'>$ICON</span>"
+    CLASS="enabled"
 else
-    # Red when disabled
-    echo "<span color='#ff5555'>$ICON</span>"
+	CLASS="disabled"
 fi
+
+jq --unbuffered --compact-output --null-input \
+    --arg text "$TEXT" \
+    --arg class "$CLASS" \
+    '{
+        "text": $text,
+        "class": $class,
+    }'
