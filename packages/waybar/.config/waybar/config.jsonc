@@ -43,7 +43,7 @@
   },
   "group/group-sensors": {
     "orientation": "horizontal",
-    "modules": ["custom/nvidia", "custom/fans", "power-profiles-daemon"]
+    "modules": ["custom/nvidia", "power-profiles-daemon", "custom/fans"]
   },
 
   /* -- WIDGETS --*/

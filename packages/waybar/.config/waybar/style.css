@@ -57,7 +57,7 @@ window#waybar{
 }
 
 /* Medium fan speed - yellow/orange (34-66%) */
-#custom-fans.fan-medium, #power-profiles-daemon.balanced, #battery.warning:not(.charging),  {
+#custom-fans.fan-medium, #power-profiles-daemon.balanced, #battery.warning:not(.charging)  {
     color: #FFBE61;
 }
 
