@@ -10,8 +10,11 @@ First make sure stow is installed on the target system. Example for mac.
 brew install stow
 ```
 ## TLDR
-Run `./sync.sh install` to install the dotfiles as symlinks on you system.
-Run `./sync.sh delete` to remove all symlinks created by stow on your system. 
+**Note**: Contains mixed macOS and Linux packages. Install selectively per platform rather than using bulk installation.
+
+- **Install single package**: `stow --target=$HOME <package-name>`
+- **Remove single package**: `stow --target=$HOME --delete <package-name>`
+- **Check before install**: Review package contents for platform compatibility 
 
 ### File structure
 Stow operates in terms of `packages`. A package is simply a directory under the dotfiles project which contains files to be symlinked.
@@ -49,12 +52,7 @@ stow --target=$HOME tmux
 As displayed above you can install a given package by running the stow binary with a package-name as the parameter.
 Use the flag `--target` to tell stow where you want it installed. 
 
-If all packages are to be installed relative to the same root, you can instead provide a pattern as an argument instead of a specific package-name.
-
-```
-# This will install all directories present in the project relative to the output of $HOME
-stow --target=$HOME */ 
-```
+**Warning**: Bulk installation with `stow --target=$HOME */` is not recommended due to mixed platform packages. Install packages individually based on your platform needs.
 
 
 **Uninstalling the symlinks**
