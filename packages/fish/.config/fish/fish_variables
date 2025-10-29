@@ -45,4 +45,4 @@ SETUVAR fish_pager_color_selected_background:\x1d
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/Users/andreas\x2efoldvik\x2ekemkers/\x2ecargo/bin\x1e/Users/andreas\x2efoldvik\x2ekemkers/go/bin\x1e/opt/homebrew/bin
+SETUVAR fish_user_paths:/Users/andreas\x2efoldvik\x2ekemkers/opt/jdk/bin\x1e/Users/andreas\x2efoldvik\x2ekemkers/opt/bin\x1e/Users/andreas\x2efoldvik\x2ekemkers/opt/maven/bin\x1e/Users/andreas\x2efoldvik\x2ekemkers/git/bob\x1e/Users/andreas\x2efoldvik\x2ekemkers/\x2enpm/bin\x1e/Users/andreas\x2efoldvik\x2ekemkers/\x2ecargo/bin\x1e/Users/andreas\x2efoldvik\x2ekemkers/go/bin\x1e/opt/homebrew/bin

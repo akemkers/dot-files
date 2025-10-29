@@ -20,6 +20,7 @@ nnoremap <leader>rc :source ~/.ideavimrc<CR>
 
 " manipulation
 vmap gc <Action>(CommentByBlockComment)
+nmap gcc <Action>(CommentByLineComment)
 nmap <Leader>cr <Action>(RenameElement)
 nmap <leader>cf <Action>(ReformatCode)
 nmap <leader>ca <Action>(ShowIntentionActions)

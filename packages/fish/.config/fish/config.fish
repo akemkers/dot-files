@@ -8,7 +8,17 @@ if status is-interactive
     # Homebrew
     fish_add_path /opt/homebrew/bin
 
+    # Npm scripts
+    fish_add_path $HOME/.npm/bin
+
+    # SB1
+    fish_add_path /Users/andreas.foldvik.kemkers/git/bob
+    fish_add_path /Users/andreas.foldvik.kemkers/opt/maven/bin
+    fish_add_path /Users/andreas.foldvik.kemkers/opt/bin
+    fish_add_path /Users/andreas.foldvik.kemkers/opt/jdk/bin
+
     # Aliases
+    alias .. "cd .."
     alias gv="lazygit"
     alias rb='source ~/.config/fish/config.fish'
 
@@ -22,4 +32,7 @@ if status is-interactive
     # Rust
     fish_add_path $HOME/.cargo/bin
 end
+
+
+
 
