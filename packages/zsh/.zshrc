@@ -8,7 +8,7 @@ ZSH_THEME="af-magic"
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 
-# zstyle ':omz:update' mode disabled  # disable automatic updates
+zstyle ':omz:update' mode disabled  # disable automatic updates - run `omz update` manually
 # zstyle ':omz:update' mode auto      # update automatically without asking
 # zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # zstyle ':omz:update' frequency 13
@@ -38,10 +38,10 @@ if [[ "$(uname)" == "Darwin" ]]; then
   zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2
   
   zplug load
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose; then
-     echo; zplug install
-  fi
+  # Run `zplug install` manually when adding new plugins
+  # if ! zplug check --verbose; then
+  #    echo; zplug install
+  # fi
   else
     export ZPLUG_HOME=/usr/share/zplug
 fi
@@ -49,6 +49,8 @@ fi
 # custom prompt
 #export PURE_PROMPT_SYMBOL=🤷🏼‍♂️🤠
 
+# Skip OMZ's compinit - zplug already handles it
+skip_global_compinit=1
 source $ZSH/oh-my-zsh.sh
 
 alias rb='source ~/.zshrc'
@@ -61,9 +63,13 @@ alias bi='brew install --appdir ~/Applications'
 alias gv='lazygit'
 alias nvim-lazy='NVIM_APPNAME="nvim-lazy" nvim'
 alias dvim="docker run --detach-keys='ctrl-z,z' -v utvikler-home:/home/user -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -p 5173:5173 -p 8080:8080 -it --rm dvim zsh"
+alias claude="~/.claude/local/claude"
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
+
+# User bin path
+export PATH=$PATH:~/bin
 
 if [[ "$(uname)" == "Darwin" ]]; then
   # Overide default utils with gnubin utils. Needed for SB1 scripts that require GNU version, and for some reason TMUX messes up the path
@@ -75,10 +81,19 @@ if [[ "$(uname)" == "Darwin" ]]; then
 
   [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
 
-  # Node version manager
+  # Node version manager - lazy loaded for faster shell startup
   export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+  lazy_load_nvm() {
+    unset -f nvm node npm npx pnpm yarn
+    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  }
+  nvm() { lazy_load_nvm && nvm "$@"; }
+  node() { lazy_load_nvm && node "$@"; }
+  npm() { lazy_load_nvm && npm "$@"; }
+  npx() { lazy_load_nvm && npx "$@"; }
+  pnpm() { lazy_load_nvm && pnpm "$@"; }
+  yarn() { lazy_load_nvm && yarn "$@"; }
 fi
 
 ## SSH
@@ -103,7 +118,7 @@ export PATH=$PATH:$HOME/.cargo/bin
 
 # Zoxide
 eval "$(zoxide init zsh)"
-alias cd="z"
+# alias cd="z"
 
 # secrets
 if ! [ -f ~/.zsh_secrets ]; then
@@ -114,6 +129,5 @@ fi
 
 # Enable vim mode for zsh
 bindkey -v
-
 
 
