@@ -29,27 +29,22 @@ plugins=(git)
 #### CUSTOM SETTINGS ####
 
 if [[ "$(uname)" == "Darwin" ]]; then
-  export ZPLUG_HOME=/opt/homebrew/opt/zplug
+  # Zinit plugin manager (faster than zplug)
+  source /opt/homebrew/opt/zinit/zinit.zsh
 
-  source $ZPLUG_HOME/init.zsh
-  
-  zplug "mafredri/zsh-async", from:github
-  zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
-  zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2
-  
-  zplug load
-  # Run `zplug install` manually when adding new plugins
-  # if ! zplug check --verbose; then
-  #    echo; zplug install
-  # fi
-  else
-    export ZPLUG_HOME=/usr/share/zplug
+  # Pure theme (load immediately - it's a prompt)
+  zinit ice pick"async.zsh" src"pure.zsh"
+  zinit light sindresorhus/pure
+
+  # Autosuggestions - turbo mode loads AFTER prompt appears
+  zinit ice wait lucid atload"_zsh_autosuggest_start"
+  zinit light zsh-users/zsh-autosuggestions
 fi
 
 # custom prompt
 #export PURE_PROMPT_SYMBOL=🤷🏼‍♂️🤠
 
-# Skip OMZ's compinit - zplug already handles it
+# Skip OMZ's compinit - zinit handles it
 skip_global_compinit=1
 source $ZSH/oh-my-zsh.sh
 

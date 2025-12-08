@@ -85,13 +85,13 @@ Profiles -> Color Presets -> Catppuccin Macchiato
 
 ### Oh my zsh
 
-Installer ohmyzsh og zplug:
+Installer ohmyzsh og zinit:
 
 ```bash
 # Oh My Zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# zplug
-brew install zplug
+# zinit (plugin manager)
+brew install zinit
 ```
 
 ## dot-files
