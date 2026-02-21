@@ -21,6 +21,9 @@ if status is-interactive
     alias .. "cd .."
     alias gv="lazygit"
     alias rb='source ~/.config/fish/config.fish'
+    alias hyp="nvim ~/.config/hypr"
+    alias nvim-lazy="NVIM_APPNAME=nvim-lazy nvim"
+
 
     # Theme
     #fish_config theme save  "Catppuccin Mocha"
@@ -32,7 +35,4 @@ if status is-interactive
     # Rust
     fish_add_path $HOME/.cargo/bin
 end
-
-
-
 

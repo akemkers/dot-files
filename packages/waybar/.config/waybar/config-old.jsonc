@@ -1,0 +1,245 @@
+// -*- mode: jsonc -*-
+{
+  // "layer": "top", // Waybar at top layer
+  // "position": "bottom", // Waybar position (top|bottom|left|right)
+  "height": 30, // Waybar height (to be removed for auto height)
+  // "width": 1280, // Waybar width
+  "margin": 8,
+  "spacing": 8, // Gaps between modules (4px)
+  // Choose the order of the modules
+  "modules-left": [
+    "custom/distrologo",
+    "hyprland/workspaces",
+    "sway/workspaces",
+    "sway/mode",
+    "sway/window",
+    "tray",
+    "custom/power-profiles"
+    //"hyprland/window"
+  ],
+  "modules-center": [],
+  "modules-right": [
+    "custom/grouped_status",
+    "custom/fans",
+    "custom/nvidia",
+    "temperature",
+    //"hyprland/language",
+    "pulseaudio",
+    "backlight",
+    "battery",
+    "power-profiles-daemon",
+    "custom/bluetooth",
+    //"custom/wifi",
+    "network",
+    "clock",
+    "custom/power"
+  ],
+  // Modules configuration
+  "custom/power-profiles": {
+    "format": "⚡", // or your icon
+    "on-click": "~/.config/scripts/powerprofile-menu.sh",
+    "tooltip": false
+  },
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "warp-on-scroll": false,
+    "format": "{icon}",
+    "format-icons": {
+      "1": "󰈹",
+      "2": "",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      // "urgent": "[!]",
+      // "focused": "[]",
+      "default": "{icon}"
+    },
+    "persistent-workspaces": {
+      "*": [
+        1,
+        2
+        // 3,
+        // 4,
+        // 5
+      ]
+    }
+  },
+  "mpd": {
+    "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+    "format-disconnected": "Disconnected ",
+    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+    "unknown-tag": "N/A",
+    "interval": 5,
+    "consume-icons": {
+      "on": " "
+    },
+    "random-icons": {
+      "off": "<span color=\"#f53c3c\"></span> ",
+      "on": " "
+    },
+    "repeat-icons": {
+      "on": " "
+    },
+    "single-icons": {
+      "on": "1 "
+    },
+    "state-icons": {
+      "paused": "",
+      "playing": ""
+    },
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)"
+  },
+  "tray": {
+    "icon-size": 24,
+    "spacing": 10
+  },
+  "clock": {
+    // "timezone": "America/New_York",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": "{:%Y-%m-%d}"
+  },
+  "cpu": {
+    "format": "{usage}% ",
+    "tooltip": false
+  },
+  "memory": {
+    "format": "{}% "
+  },
+  "temperature": {
+    // "thermal-zone": 2,
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    // "format-critical": "{temperatureC}°C {icon}",
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": [
+      "",
+      "",
+      ""
+    ]
+  },
+  "backlight": {
+    // "device": "acpi_video1",
+    "format": "{percent}% {icon}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "battery": {
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{capacity}% {icon}",
+    "format-full": "{capacity}% {icon}",
+    "format-charging": "{capacity}% ",
+    "format-plugged": "{capacity}% ",
+    "format-alt": "{time} {icon}",
+    // "format-good": "", // An empty format will hide the module
+    // "format-full": "",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "power-profiles-daemon": {
+    "icon-size": 24,
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+  "network": {
+    // "interface": "wlp2*", // (Optional) To force the use of this interface
+    //"format-wifi": "{essid} ({signalStrength}%)  ",
+    //"format-ethernet": "{ipaddr}/{cidr}  ",
+    "format-wifi": " ",
+    "format-ethernet": " ",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)  ",
+    "format-linked": "{ifname} (No IP)  ",
+    "format-disconnected": "No network ⚠ ",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "scroll-step": 1, // %, can be a float
+    "format": "{volume}% {icon} {format_source}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": "  ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "pavucontrol"
+  },
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false,
+    "on-click": "wlogout"
+  },
+  "custom/bluetooth": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "blueberry"
+  },
+  "custom/distrologo": {
+    "format": "{icon}",
+    "tooltip-format": "I'm using Arch BTW",
+    "tooltip": true,
+    "format-icons": {
+      "default": "󰣇"
+    },
+    "on-click": "wofi --show drun"
+  },
+  "custom/nvidia": {
+    "exec": "$HOME/.config/scripts/check_dgpu_usage.sh",
+    "format": "{} 🖥️",
+    "interval": 60
+  },
+  "custom/fans": {
+    "format": "{}",
+    "exec": "$HOME/.config/scripts/check_fan_status.sh",
+    "interval": 5
+  },
+  "custom/grouped_status": {
+    "format": "", // single icon
+    "tooltip": true,
+    "tooltip-format": "{text}",
+    "return-type": "json",
+    "exec": "~/.config/scripts/test.sh",
+    "interval": 5
+  }
+}
