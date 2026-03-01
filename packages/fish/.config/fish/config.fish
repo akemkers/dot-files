@@ -8,6 +8,9 @@ if status is-interactive
     # Homebrew
     fish_add_path /opt/homebrew/bin
 
+    # local
+    fish_add_path ~/.local/bin/
+
     # Npm scripts
     fish_add_path $HOME/.npm/bin
 
