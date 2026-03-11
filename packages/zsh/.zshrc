@@ -3,7 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="af-magic"
+ZSH_THEME=""  # Disable oh-my-zsh theme (using zinit's Pure theme instead)
 
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
@@ -24,35 +24,39 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+# Only load oh-my-zsh for interactive shells to avoid completion errors
+if [[ -o interactive ]]; then
+  source $ZSH/oh-my-zsh.sh
+fi
+
 
 
 #### CUSTOM SETTINGS ####
 
 if [[ "$(uname)" == "Darwin" ]]; then
-  # Zinit plugin manager (faster than zplug)
-  source /opt/homebrew/opt/zinit/zinit.zsh
+  # Only load zinit plugins for interactive shells (oh-my-zsh already initialized completions)
+  if [[ -o interactive ]]; then
+    # Zinit plugin manager (faster than zplug)
+    source /opt/homebrew/opt/zinit/zinit.zsh
 
-  # Pure theme (load immediately - it's a prompt)
-  zinit ice pick"async.zsh" src"pure.zsh"
-  zinit light sindresorhus/pure
+    # Pure theme (load immediately - it's a prompt)
+    zinit ice pick"async.zsh" src"pure.zsh"
+    zinit light sindresorhus/pure
 
-  # Autosuggestions - turbo mode loads AFTER prompt appears
-  zinit ice wait lucid atload"_zsh_autosuggest_start"
-  zinit light zsh-users/zsh-autosuggestions
+    # Autosuggestions - turbo mode loads AFTER prompt appears
+    zinit ice wait lucid atload"_zsh_autosuggest_start"
+    zinit light zsh-users/zsh-autosuggestions
+  fi
 fi
 
 # custom prompt
 #export PURE_PROMPT_SYMBOL=🤷🏼‍♂️🤠
 
-# Skip OMZ's compinit - zinit handles it
-skip_global_compinit=1
-source $ZSH/oh-my-zsh.sh
-
 alias rb='source ~/.zshrc'
 alias bp='nvim ~/.zshrc'
 alias branch='git checkout $(git branch | fzf)'
 alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing/'
-alias cddotfiles='cd ~/git/dot-files'
+alias cddotfiles='cd ~/.config/dot-files'
 alias ll='ls -al'
 alias bi='brew install --appdir ~/Applications'
 alias gv='lazygit'
@@ -62,6 +66,7 @@ alias claude="~/.claude/local/claude"
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
+export TESTCONTAINERS_RYUK_DISABLED=false
 
 # User bin path
 export PATH=$PATH:~/bin
@@ -81,7 +86,10 @@ if [[ "$(uname)" == "Darwin" ]]; then
   lazy_load_nvm() {
     unset -f nvm node npm npx pnpm yarn
     [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+    # Only load completions in interactive shells to avoid compdef errors
+    if [[ -o interactive ]]; then
+      [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+    fi
   }
   nvm() { lazy_load_nvm && nvm "$@"; }
   node() { lazy_load_nvm && node "$@"; }
@@ -124,5 +132,4 @@ fi
 
 # Enable vim mode for zsh
 bindkey -v
-
-
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"

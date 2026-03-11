@@ -1,2 +1,4 @@
 .DS_Store
-/packages/tmux/.config/tmux/plugins/
+/packages/fish/.config/fish/conf.d/fish_frozen_key_bindings.fish
+/packages/fish/.config/fish/conf.d/fish_frozen_theme.fish
+/packages/fish/.config/fish/fish_variables
