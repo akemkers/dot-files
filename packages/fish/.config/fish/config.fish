@@ -5,37 +5,35 @@ if status is-interactive
 
     set -gx EDITOR nvim
 
-    # Homebrew
-    fish_add_path /opt/homebrew/bin
+    fish_add_path --path $HOME/.local/bin
 
-    # local
-    fish_add_path ~/.local/bin/
+    # macOS only
+    if test "$(uname)" = Darwin
+        fish_add_path --path /opt/homebrew/bin
+        set -gx DOCKER_HOST "unix://$HOME/.colima/default/docker.sock"
+        set -gx TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE /var/run/docker.sock
+    end
 
     # Npm scripts
-    fish_add_path $HOME/.npm/bin
+    fish_add_path --path $HOME/.npm/bin
 
     # SB1
-    fish_add_path /Users/andreas.foldvik.kemkers/git/bob
-    fish_add_path /Users/andreas.foldvik.kemkers/opt/maven/bin
-    fish_add_path /Users/andreas.foldvik.kemkers/opt/bin
-    fish_add_path /Users/andreas.foldvik.kemkers/opt/jdk/bin
+    fish_add_path --path $HOME/git/bob
+    fish_add_path --path $HOME/opt/maven/bin
+    fish_add_path --path $HOME/opt/bin
+    fish_add_path --path $HOME/opt/jdk/bin
 
     # Aliases
     alias .. "cd .."
     alias gv="lazygit"
-    alias rb='source ~/.config/fish/config.fish'
+    alias rb='exec fish'
     alias hyp="nvim ~/.config/hypr"
-    alias nvim-lazy="NVIM_APPNAME=nvim-lazy nvim"
-
-
-    # Theme
-    #fish_config theme save  "Catppuccin Mocha"
+    alias nl='NVIM_APPNAME="nvim-custom" command nvim'
 
     # GO
     set -gx GOPATH $HOME/go
-    fish_add_path $GOPATH/bin
+    fish_add_path --path $GOPATH/bin
 
     # Rust
-    fish_add_path $HOME/.cargo/bin
+    fish_add_path --path $HOME/.cargo/bin
 end
-
