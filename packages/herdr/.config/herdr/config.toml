@@ -1,0 +1,136 @@
+onboarding = false
+# Mirrors akemkers/dot-files packages/tmux/.config/tmux/tmux.conf
+# tmux session -> herdr workspace, tmux window -> herdr tab, tmux pane -> herdr pane
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
+[theme.custom]
+panel_bg = "black"
+
+[terminal]
+# Matches -c "#{pane_current_path}" on the | and - splits
+new_cwd = "follow"
+
+[keys]
+# unbind C-b / set-option -g prefix C-f
+prefix = "ctrl+f"
+
+# bind r source-file ... ; tmux's default prefix+d detaches
+reload_config = "prefix+r"
+detach = "prefix+d"
+help = "prefix+?"
+settings = "prefix+s"
+
+# bind 'v' copy-mode (mode-keys vi)
+copy_mode = "prefix+v"
+edit_scrollback = "prefix+e"
+
+# bind | split-window -h  /  bind - split-window -v
+split_vertical = "prefix+|"
+split_horizontal = "prefix+minus"
+
+# bind x kill-pane (no confirmation prompt)
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# vim-tmux-navigator: ctrl+hjkl with no prefix
+focus_pane_left = "ctrl+h"
+focus_pane_down = "ctrl+j"
+focus_pane_up = "ctrl+k"
+focus_pane_right = "ctrl+l"
+
+# bind -n M-Left/Right/Up/Down resize-pane
+resize_pane_left = "alt+left"
+resize_pane_down = "alt+down"
+resize_pane_up = "alt+up"
+resize_pane_right = "alt+right"
+resize_mode = "prefix+ctrl+r"
+
+# tmux's { and } swap-pane, vim-style
+swap_pane_left = "prefix+shift+h"
+swap_pane_down = "prefix+shift+j"
+swap_pane_up = "prefix+shift+k"
+swap_pane_right = "prefix+shift+l"
+
+rename_pane = "prefix+shift+p"
+
+# Windows -> tabs
+new_tab = "prefix+c"
+rename_tab = "prefix+comma"
+close_tab = "prefix+shift+x"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+move_tab_previous = "prefix+shift+left"
+move_tab_next = "prefix+shift+right"
+
+# Sessions -> workspaces. prefix+k is the sesh-style fzf jump list (see
+# [[keys.command]] at the end of this file); prefix+w is herdr's own workspace
+# picker and prefix+g is navigate mode.
+workspace_picker = "prefix+w"
+goto = "prefix+g"
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+;"
+close_workspace = "prefix+shift+d"
+switch_workspace = "prefix+shift+1..9"
+new_worktree = "prefix+shift+g"
+
+# Navigate mode (prefix+k): j/k move down/up the workspace list.
+# Panes are on ctrl+hjkl globally and on the arrow keys in navigate mode.
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_up = ""
+navigate_pane_down = ""
+
+toggle_sidebar = "prefix+b"
+open_notification_target = "prefix+i"
+
+[ui]
+accent = "blue"
+
+# tmux drew single-line dividers between panes, no outer frame, no scrollbars
+pane_gaps = false
+pane_outer_borders = false
+pane_scrollbars = false
+
+# kill-pane/kill-window were unbound from their confirm-before-kill defaults
+confirm_close = false
+
+# automatic-rename off / allow-rename off -> tab names are chosen by hand
+prompt_new_tab_name = true
+
+# set -g mouse on
+mouse_capture = true
+
+# set -g status-position top
+tab_bar_position = "top"
+
+# catppuccin window text showed the zoom flag
+tab_bar_right = [{ type = "zoom" }]
+
+agent_panel_sort = "spaces"
+show_agent_labels_on_pane_borders = false
+[ui.toast]
+delivery = "system"
+
+[advanced]
+# set -g history-limit 1000000
+scrollback_limit_bytes = 50000000
+
+# sesh replacement: fzf over spaces and their tabs, enter jumps.
+[[keys.command]]
+key = "prefix+k"
+type = "popup"
+command = "/home/afk/.config/herdr/bin/herdr-fzf"
+description = "Spaces"
+width = "80%"
+height = "70%"
+
+[[keys.command]]
+key = "prefix+a"
+type = "popup"
+command = "/home/afk/.config/herdr/bin/herdr-fzf agents"
+description = "Agents"
+width = "80%"
+height = "70%"

@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+# fzf jump list for herdr: spaces (tmux sessions), their tabs (tmux windows),
+# and running agents. Enter jumps.
+#   ^s spaces   ^w spaces+tabs   ^a agents   ^c new space   ^x close
+# Usage: herdr-fzf [spaces|agents]
+set -euo pipefail
+
+# Mirrors herdr's own sidebar dots: filled blue = finished but unseen,
+# hollow green = finished and seen.
+icon() {
+  case "$1" in
+    working) printf '\033[33m●\033[0m' ;;
+    blocked) printf '\033[31m●\033[0m' ;;
+    done)    printf '\033[94m●\033[0m' ;;
+    idle)    printf '\033[32m○\033[0m' ;;
+    *)       printf '\033[90m·\033[0m' ;;
+  esac
+}
+
+list_spaces() {
+  herdr workspace list | jq -r '.result.workspaces[] | [.workspace_id, .label, .agent_status, .tab_count, .pane_count] | @tsv' |
+  while IFS=$'\t' read -r id label status tabs panes; do
+    printf '%s\t%s \033[1m%s\033[0m \033[90m%s tabs, %s panes\033[0m\n' \
+      "$id" "$(icon "$status")" "$label" "$tabs" "$panes"
+  done
+}
+
+list_tabs_of() {
+  herdr tab list --workspace "$1" | jq -r '.result.tabs[] | [.tab_id, .number, .label, .agent_status] | @tsv' |
+  while IFS=$'\t' read -r id num label status; do
+    printf '%s\t   %s \033[90m%s\033[0m %s\n' "$id" "$(icon "$status")" "$num" "$label"
+  done
+}
+
+list_all() {
+  herdr workspace list | jq -r '.result.workspaces[] | [.workspace_id, .label, .agent_status, .tab_count, .pane_count] | @tsv' |
+  while IFS=$'\t' read -r id label status tabs panes; do
+    printf '%s\t%s \033[1m%s\033[0m \033[90m%s tabs, %s panes\033[0m\n' \
+      "$id" "$(icon "$status")" "$label" "$tabs" "$panes"
+    list_tabs_of "$id"
+  done
+}
+
+list_agents() {
+  jq -rn \
+    --slurpfile ws <(herdr workspace list) \
+    --slurpfile ag <(herdr agent list) '
+      ($ws[0].result.workspaces | map({key: .workspace_id, value: .label}) | from_entries) as $W |
+      $ag[0].result.agents[] |
+      [ .pane_id, .agent_status,
+        ($W[.workspace_id] // .workspace_id), (.name // .agent),
+        (.terminal_title_stripped // ""), .cwd ] | @tsv' |
+  while IFS=$'\t' read -r id status ws agent title cwd; do
+    printf '%s\t%s \033[1m%s\033[0m \033[90m%s\033[0m %s\n' \
+      "$id" "$(icon "$status")" "$ws" "$agent" "${title:-${cwd/#$HOME/\~}}"
+  done
+}
+
+create_workspace() {
+  local name="${1:-}"
+  read -e -r -i "$name" -p "New space name: " name || return 0
+  name="${name#"${name%%[![:space:]]*}"}"
+  [ -n "$name" ] || return 0
+  herdr workspace create --label "$name" --focus >/dev/null
+}
+
+# Close the selected row. Agents/panes are left alone, and a space cannot close
+# itself: the popup is running inside it.
+close_target() {
+  local id="$1"
+  case "$id" in
+    *:p*) : ;;
+    *:t*) herdr tab close "$id" >/dev/null 2>&1 || true ;;
+    "${HERDR_WORKSPACE_ID:-__none__}")
+      herdr notification show "Switch away first" --body "A space can't be closed from its own popup." >/dev/null 2>&1 || true ;;
+    *)    herdr workspace close "$id" >/dev/null 2>&1 || true ;;
+  esac
+}
+
+preview() {
+  case "$1" in
+    *:p*) herdr agent read "$1" --source recent-unwrapped --lines 200 --format ansi ;;
+    *:t*) herdr pane list --workspace "${1%%:*}" |
+            jq -r --arg t "$1" '.result.panes[] | select(.tab_id==$t) |
+              "\(.pane_id)  \(.terminal_title_stripped // "shell")  \(.cwd)"' ;;
+    *)    herdr tab list --workspace "$1" |
+            jq -r '.result.tabs[] | "\(.number)  \(.label)  [\(.agent_status)]"' ;;
+  esac
+}
+
+mode_file="${HERDR_FZF_MODE:-/dev/null}"
+
+# fzf's default layout draws the first input line closest to the prompt and
+# stacks later lines upward, so reversing the input makes it read top-down.
+case "${1:-}" in
+  --spaces)  echo spaces > "$mode_file"; list_spaces | tac; exit 0 ;;
+  --all)     echo all    > "$mode_file"; list_all    | tac; exit 0 ;;
+  --agents)  echo agents > "$mode_file"; list_agents | tac; exit 0 ;;
+  --relist)  case "$(cat "$mode_file" 2>/dev/null)" in
+               all)    list_all    | tac ;;
+               agents) list_agents | tac ;;
+               *)      list_spaces | tac ;;
+             esac
+             exit 0 ;;
+  --create)  create_workspace "${2:-}"; exit 0 ;;
+  --close)   close_target "${2:-}"; exit 0 ;;
+  --preview) preview "$2"; exit 0 ;;
+esac
+
+self="${BASH_SOURCE[0]}"
+HERDR_FZF_MODE="$(mktemp)"; export HERDR_FZF_MODE
+trap 'rm -f "$HERDR_FZF_MODE"' EXIT
+
+case "${1:-spaces}" in
+  agents) start_list=list_agents; start_label=' Agents '; echo agents > "$HERDR_FZF_MODE" ;;
+  *)      start_list=list_spaces; start_label=' Spaces '; echo spaces > "$HERDR_FZF_MODE" ;;
+esac
+
+selection=$(
+  "$start_list" | tac | fzf --ansi --no-sort --delimiter='\t' --with-nth=2.. \
+    --highlight-line --gutter=' ' --color=gutter:-1 \
+    --border-label="$start_label" --prompt='❯ ' --pointer='' \
+    --header='  ^s spaces  ^w spaces+tabs  ^a agents  ^c new  ^x close' \
+    --bind="ctrl-s:change-border-label( Spaces )+reload($self --spaces)" \
+    --bind="ctrl-w:change-border-label( Spaces )+reload($self --all)" \
+    --bind="ctrl-a:change-border-label( Agents )+reload($self --agents)" \
+    --bind="ctrl-c:execute($self --create {q})+abort" \
+    --bind="ctrl-x:execute-silent($self --close {1})+reload($self --relist)" \
+    --preview="$self --preview {1}" --preview-window='right:55%'
+) || exit 0
+
+id="${selection%%$'\t'*}"
+[ -n "$id" ] || exit 0
+
+case "$id" in
+  *:p*) herdr agent focus "$id" >/dev/null ;;
+  *:t*) herdr tab focus "$id"   >/dev/null ;;
+  *)    herdr workspace focus "$id" >/dev/null ;;
+esac
