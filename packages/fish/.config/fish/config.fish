@@ -5,8 +5,6 @@ if status is-interactive
 
     set -gx EDITOR nvim
 
-    fish_add_path --path $HOME/.local/bin
-
     # macOS only
     if test "$(uname)" = Darwin
         fish_add_path --path /opt/homebrew/bin
@@ -21,7 +19,10 @@ if status is-interactive
     fish_add_path --path $HOME/git/bob
     fish_add_path --path $HOME/opt/maven/bin
     fish_add_path --path $HOME/opt/bin
-    fish_add_path --path $HOME/opt/jdk/bin
+    # sørger for at jdk ikke overskrives av apples stub i /usr/bin
+    fish_add_path --path --move $HOME/opt/jdk/bin
+    fish_add_path --path $HOME/bin
+    fish_add_path --path $HOME/.local/bin
 
     # Aliases
     alias .. "cd .."
