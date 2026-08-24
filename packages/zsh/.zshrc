@@ -24,6 +24,11 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+# FPATH er eksportert, så nøstede shell (tmux, subshell) arver og legger på.
+# Uten dedup vokser lista, og omz kaster completion-cachen fordi den
+# sammenligner fpath tegn for tegn.
+typeset -U fpath
+
 # Only load oh-my-zsh for interactive shells to avoid completion errors
 if [[ -o interactive ]]; then
   source $ZSH/oh-my-zsh.sh
@@ -62,7 +67,9 @@ alias bi='brew install --appdir ~/Applications'
 alias gv='lazygit'
 alias nvim-lazy='NVIM_APPNAME="nvim-lazy" nvim'
 alias dvim="docker run --detach-keys='ctrl-z,z' -v utvikler-home:/home/user -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -p 5173:5173 -p 8080:8080 -it --rm dvim zsh"
-alias claude="~/.claude/local/claude"
+
+# Claude path
+export PATH=$PATH:~/.claude/local
 
 # Docker path
 export PATH=$PATH:~/.docker/bin
@@ -79,7 +86,18 @@ if [[ "$(uname)" == "Darwin" ]]; then
   export PATH="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PATH"
   export PHP_INI_SCAN_DIR="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
-  [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
+  # aws_completer.sh og bob-completion.sh i shrc.d kaller compinit på nytt.
+  # Omz har allerede initialisert completion, så vi nuller kallene deres.
+  if [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ]; then
+    if [[ -o interactive ]]; then
+      functions[compinit]=':'
+      . /Users/andreas.foldvik.kemkers/opt/etc/shrc
+      unfunction compinit
+      autoload -Uz compinit
+    else
+      . /Users/andreas.foldvik.kemkers/opt/etc/shrc
+    fi
+  fi
 
   # Node version manager - lazy loaded for faster shell startup
   export NVM_DIR="$HOME/.nvm"
@@ -97,19 +115,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
   npx() { lazy_load_nvm && npx "$@"; }
   pnpm() { lazy_load_nvm && pnpm "$@"; }
   yarn() { lazy_load_nvm && yarn "$@"; }
-fi
-
-## SSH
-# SSH Agent should be running, once
-if ! ps -ef | grep "[s]sh-agent" &>/dev/null; then
-echo Starting SSH Agent
-eval $(ssh-agent -s)
-fi
-
-# Add identities if none are added
-if ! ssh-add -l &>/dev/null; then
-echo Adding identities to SSH Agent
-find ~/.ssh -type f -name 'id_*' ! -name '*.pub' | xargs ssh-add
 fi
 
 # GO PATH
