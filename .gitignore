@@ -2,3 +2,10 @@
 /packages/fish/.config/fish/conf.d/fish_frozen_key_bindings.fish
 /packages/fish/.config/fish/conf.d/fish_frozen_theme.fish
 /packages/fish/.config/fish/fish_variables
+
+# TPM installerer hit fordi ~/.config/tmux er stow-symlinket inn i repoet
+/packages/tmux/.config/tmux/plugins/
+
+# herdr runtime-state, ikke config
+/packages/herdr/.config/herdr/*.log
+/packages/herdr/.config/herdr/session.json
