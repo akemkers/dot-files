@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# vim-tmux-navigator for herdr: ctrl+hjkl flytter fokus, men hvis panet
+# kjører nvim sendes tasten inn i panet i stedet, så nvim flytter sitt eget
+# vindu. Finnes kode for å ta navigasjon fra nvim og ut til tmux igjen
+# (se lua/plugins/tmux.lua i akemkers/lazy-vim).
+#
+# Usage: herdr-nav left|down|up|right
+set -euo pipefail
+
+case "${1-}" in
+left) key=ctrl+h ;;
+down) key=ctrl+j ;;
+up) key=ctrl+k ;;
+right) key=ctrl+l ;;
+*)
+  echo "usage: herdr-nav left|down|up|right" >&2
+  exit 64
+  ;;
+esac
+dir=$1
+
+# Injisert av herdr når den kaller oss, og uavhengig av PATH.
+herdr=${HERDR_BIN_PATH:-herdr}
+
+# Prosesser som flytter sine egne vinduer og derfor skal ha tasten selv.
+# Overstyr med f.eks. HERDR_NAV_EDITORS="nvim vim lazygit".
+editors=${HERDR_NAV_EDITORS:-nvim vim vi view nvimdiff vimdiff}
+
+# Uten HERDR_PANE_ID slår herdr opp panet som har fokus i UI-et. Serveren kan
+# ha arvet variabelen fra panet den ble startet fra, så vi nuller den her.
+unset HERDR_PANE_ID HERDR_TAB_ID HERDR_WORKSPACE_ID
+
+# Grepper JSON-en med bash i stedet for jq: dette kjører på hvert tastetrykk,
+# og en fork mindre er merkbart. shell_pid-ankeret gjør treffet entydig.
+# Feiler oppslaget flytter vi fokus blindt, så tasten aldri blir helt død.
+if info=$("$herdr" pane process-info 2>/dev/null) &&
+  [[ $info =~ \"pane_id\":\"([^\"]+)\",\"shell_pid\" ]]; then
+  pane=${BASH_REMATCH[1]}
+else
+  exec "$herdr" pane focus --direction "$dir" >/dev/null
+fi
+
+for editor in $editors; do
+  if [[ $info == *"\"name\":\"$editor\""* ]]; then
+    exec "$herdr" pane send-keys "$pane" "$key" >/dev/null
+  fi
+done
+
+exec "$herdr" pane focus --pane "$pane" --direction "$dir" >/dev/null

@@ -51,8 +51,9 @@ list_agents() {
         ($W[.workspace_id] // .workspace_id), (.name // .agent),
         (.terminal_title_stripped // ""), .cwd ] | @tsv' |
   while IFS=$'\t' read -r id status ws agent title cwd; do
+    # Samme rekkefølge som sidebar-radene: tittel i bold, så dim workspace + agent
     printf '%s\t%s \033[1m%s\033[0m \033[90m%s\033[0m %s\n' \
-      "$id" "$(icon "$status")" "$ws" "$agent" "${title:-${cwd/#$HOME/\~}}"
+      "$id" "$(icon "$status")" "${title:-${cwd/#$HOME/\~}}" "$ws" "$agent"
   done
 }
 
