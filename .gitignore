@@ -9,3 +9,4 @@
 # herdr runtime-state, ikke config
 /packages/herdr/.config/herdr/*.log
 /packages/herdr/.config/herdr/session.json
+/packages/herdr/.config/herdr/sessions/

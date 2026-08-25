@@ -5,15 +5,73 @@
 # Usage: herdr-fzf [spaces|agents]
 set -euo pipefail
 
-# Mirrors herdr's own sidebar dots: filled blue = finished but unseen,
-# hollow green = finished and seen.
+herdr_config="${HERDR_CONFIG:-$HOME/.config/herdr/config.toml}"
+
+# Henter en quoted verdi fra en gitt seksjon i config.toml. Seksjonsbevisst fordi
+# nøkler som "name" finnes i flere seksjoner.
+toml_get() {
+  [ -r "$herdr_config" ] || return 0
+  awk -v sect="$1" -v key="$2" '
+    /^[[:space:]]*\[/ { inside = ($0 ~ "^[[:space:]]*\\[" sect "\\]"); next }
+    inside && $0 ~ "^[[:space:]]*" key "[[:space:]]*=" {
+      if (match($0, /"[^"]*"/)) { print substr($0, RSTART + 1, RLENGTH - 2); exit }
+    }
+  ' "$herdr_config"
+}
+
+# Glyfer og farger er herdr sine egne, lest ut av sidebaren:
+#   blocked ×  working ◐  done ✓  idle ○  unknown ·
+# "dots" bruker ● for de tre første og skiller dem bare på farge.
+case "$(toml_get ui status_indicators)" in
+  symbols) glyph_blocked='×'; glyph_working='◐'; glyph_done='✓' ;;
+  *)       glyph_blocked='●'; glyph_working='●'; glyph_done='●' ;;
+esac
+glyph_idle='○'
+glyph_unknown='·'
+
+# herdr har ingen kommando som dumper den oppløste paletten, så tokenverdiene per
+# tema må ligge her. Ukjent tema faller tilbake på terminalens ANSI-farger.
+case "$(toml_get theme name)" in
+  tokyo-night)
+    th_red='#f7768e'; th_yellow='#e0af68'; th_teal='#7dcfff'
+    th_green='#9ece6a'; th_overlay0='#565f89' ;;
+  catppuccin)
+    th_red='#f38ba8'; th_yellow='#f9e2af'; th_teal='#94e2d5'
+    th_green='#a6e3a1'; th_overlay0='#6c7086' ;;
+  *)
+    th_red=''; th_yellow=''; th_teal=''; th_green=''; th_overlay0='' ;;
+esac
+
+# [theme.custom] vinner over temaet, samme prioritet som herdr bruker.
+token_color() {
+  local custom
+  custom=$(toml_get theme.custom "$1")
+  printf '%s' "${custom:-$2}"
+}
+
+# Hex -> truecolor-SGR. Uten brukbar hex faller vi tilbake på ANSI-koden.
+sgr() {
+  local h="${1#\#}"
+  if [ ${#h} -eq 6 ]; then
+    printf '38;2;%d;%d;%d' "0x${h:0:2}" "0x${h:2:2}" "0x${h:4:2}"
+  else
+    printf '%s' "$2"
+  fi
+}
+
+sgr_blocked=$(sgr "$(token_color red      "$th_red")"      31)
+sgr_working=$(sgr "$(token_color yellow   "$th_yellow")"   33)
+sgr_done=$(sgr    "$(token_color teal     "$th_teal")"     36)
+sgr_idle=$(sgr    "$(token_color green    "$th_green")"    32)
+sgr_unknown=$(sgr "$(token_color overlay0 "$th_overlay0")" 90)
+
 icon() {
   case "$1" in
-    working) printf '\033[33m●\033[0m' ;;
-    blocked) printf '\033[31m●\033[0m' ;;
-    done)    printf '\033[94m●\033[0m' ;;
-    idle)    printf '\033[32m○\033[0m' ;;
-    *)       printf '\033[90m·\033[0m' ;;
+    working) printf '\033[%sm%s\033[0m' "$sgr_working" "$glyph_working" ;;
+    blocked) printf '\033[%sm%s\033[0m' "$sgr_blocked" "$glyph_blocked" ;;
+    done)    printf '\033[%sm%s\033[0m' "$sgr_done"    "$glyph_done" ;;
+    idle)    printf '\033[%sm%s\033[0m' "$sgr_idle"    "$glyph_idle" ;;
+    *)       printf '\033[%sm%s\033[0m' "$sgr_unknown" "$glyph_unknown" ;;
   esac
 }
 
@@ -91,16 +149,16 @@ preview() {
 
 mode_file="${HERDR_FZF_MODE:-/dev/null}"
 
-# fzf's default layout draws the first input line closest to the prompt and
-# stacks later lines upward, so reversing the input makes it read top-down.
+# --layout=reverse-list gir prompt nederst og liste top-down, så lista mates inn
+# i naturlig rekkefølge.
 case "${1:-}" in
-  --spaces)  echo spaces > "$mode_file"; list_spaces | tac; exit 0 ;;
-  --all)     echo all    > "$mode_file"; list_all    | tac; exit 0 ;;
-  --agents)  echo agents > "$mode_file"; list_agents | tac; exit 0 ;;
+  --spaces)  echo spaces > "$mode_file"; list_spaces; exit 0 ;;
+  --all)     echo all    > "$mode_file"; list_all;    exit 0 ;;
+  --agents)  echo agents > "$mode_file"; list_agents; exit 0 ;;
   --relist)  case "$(cat "$mode_file" 2>/dev/null)" in
-               all)    list_all    | tac ;;
-               agents) list_agents | tac ;;
-               *)      list_spaces | tac ;;
+               all)    list_all ;;
+               agents) list_agents ;;
+               *)      list_spaces ;;
              esac
              exit 0 ;;
   --create)  create_workspace "${2:-}"; exit 0 ;;
@@ -108,23 +166,34 @@ case "${1:-}" in
   --preview) preview "$2"; exit 0 ;;
 esac
 
+# Tokyo Night, samme tokens som herdr-temaet bruker i sidebaren. bg+ er
+# selection_bg (#2d3650) slik at den valgte raden matcher sidebar-markeringen.
+fzf_colors='gutter:-1'
+fzf_colors+=',bg+:#2d3650,fg+:#c0caf5'
+fzf_colors+=',hl:#7aa2f7,hl+:#7dcfff'
+fzf_colors+=',prompt:#7aa2f7,pointer:#7aa2f7,marker:#7aa2f7,spinner:#7aa2f7'
+fzf_colors+=',border:#414868,header:#565f89,info:#565f89'
+
 self="${BASH_SOURCE[0]}"
 HERDR_FZF_MODE="$(mktemp)"; export HERDR_FZF_MODE
 trap 'rm -f "$HERDR_FZF_MODE"' EXIT
 
+# Modusnavnet bor i prompten. --border-label ville krevd en hovedramme, og den
+# vil vi ikke ha.
 case "${1:-spaces}" in
-  agents) start_list=list_agents; start_label=' Agents '; echo agents > "$HERDR_FZF_MODE" ;;
-  *)      start_list=list_spaces; start_label=' Spaces '; echo spaces > "$HERDR_FZF_MODE" ;;
+  agents) start_list=list_agents; start_prompt='agents ❯ '; echo agents > "$HERDR_FZF_MODE" ;;
+  *)      start_list=list_spaces; start_prompt='spaces ❯ '; echo spaces > "$HERDR_FZF_MODE" ;;
 esac
 
 selection=$(
-  "$start_list" | tac | fzf --ansi --no-sort --delimiter='\t' --with-nth=2.. \
-    --highlight-line --gutter=' ' --color=gutter:-1 \
-    --border-label="$start_label" --prompt='❯ ' --pointer='' \
+  "$start_list" | fzf --ansi --no-sort --delimiter='\t' --with-nth=2.. \
+    --layout=reverse-list --padding='1,2' \
+    --highlight-line --gutter=' ' --color="$fzf_colors" \
+    --prompt="$start_prompt" --pointer='' \
     --header='  ^s spaces  ^w spaces+tabs  ^a agents  ^c new  ^x close' \
-    --bind="ctrl-s:change-border-label( Spaces )+reload($self --spaces)" \
-    --bind="ctrl-w:change-border-label( Spaces )+reload($self --all)" \
-    --bind="ctrl-a:change-border-label( Agents )+reload($self --agents)" \
+    --bind="ctrl-s:change-prompt(spaces ❯ )+reload($self --spaces)" \
+    --bind="ctrl-w:change-prompt(spaces+tabs ❯ )+reload($self --all)" \
+    --bind="ctrl-a:change-prompt(agents ❯ )+reload($self --agents)" \
     --bind="ctrl-c:execute($self --create {q})+abort" \
     --bind="ctrl-x:execute-silent($self --close {1})+reload($self --relist)" \
     --preview="$self --preview {1}" --preview-window='right:55%'

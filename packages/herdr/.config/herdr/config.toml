@@ -87,7 +87,8 @@ toggle_sidebar = "prefix+b"
 open_notification_target = "prefix+i"
 
 [ui]
-accent = "blue"
+# Tokyo Night-blå. "blue" ville gitt terminalens rå ANSI-blå, som skriker mot temaet
+accent = "#7aa2f7"
 
 # tmux drew single-line dividers between panes, no outer frame, no scrollbars
 pane_gaps = false
@@ -128,21 +129,19 @@ delivery = "system"
 scrollback_limit_bytes = 50000000
 
 # sesh replacement: fzf over spaces and their tabs, enter jumps.
+# type = "pane" i stedet for "popup": popup tvinger en ramme med "popup"-label som
+# ikke kan skrus av. En pane åpnes zoomet og rammeløs, og lukkes når fzf avslutter.
 [[keys.command]]
 key = "prefix+k"
-type = "popup"
+type = "pane"
 command = "$HOME/.config/herdr/bin/herdr-fzf"
 description = "Spaces"
-width = "80%"
-height = "70%"
 
 [[keys.command]]
 key = "prefix+a"
-type = "popup"
+type = "pane"
 command = "$HOME/.config/herdr/bin/herdr-fzf agents"
 description = "Agents"
-width = "80%"
-height = "70%"
 
 # vim-tmux-navigator replacement. herdr has no if-shell "$is_vim", so herdr-nav
 # checks the focused pane and either sends the chord into nvim or moves focus.
