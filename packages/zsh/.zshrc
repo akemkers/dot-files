@@ -54,14 +54,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
   fi
 fi
 
-# custom prompt
-#export PURE_PROMPT_SYMBOL=🤷🏼‍♂️🤠
-
 alias rb='source ~/.zshrc'
 alias bp='nvim ~/.zshrc'
-alias branch='git checkout $(git branch | fzf)'
-alias cdawl='cd ~/git/awl-monorepo/apps/team-sparing/'
-alias cddotfiles='cd ~/.config/dot-files'
 alias ll='ls -al'
 alias bi='brew install --appdir ~/Applications'
 alias gv='lazygit'
@@ -87,16 +81,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
   export PHP_INI_SCAN_DIR="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
   # aws_completer.sh og bob-completion.sh i shrc.d kaller compinit på nytt.
-  # Omz har allerede initialisert completion, så vi nuller kallene deres.
-  if [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ]; then
-    if [[ -o interactive ]]; then
-      functions[compinit]=':'
-      . /Users/andreas.foldvik.kemkers/opt/etc/shrc
-      unfunction compinit
-      autoload -Uz compinit
-    else
-      . /Users/andreas.foldvik.kemkers/opt/etc/shrc
-    fi
+  # Omz har alt initialisert completion, så vi nuller kallene deres.
+  # Linja under må stå ordrett. provision-dev finner hooken sin med grep -F,
+  # og legger den inn på nytt nederst i fila hvis den ikke kjenner den igjen.
+  [[ -o interactive ]] && functions[compinit]=':'
+  [ -f /Users/andreas.foldvik.kemkers/opt/etc/shrc ] && . /Users/andreas.foldvik.kemkers/opt/etc/shrc
+  if [[ -o interactive ]]; then
+    unfunction compinit
+    autoload -Uz compinit
   fi
 
   # Node version manager - lazy loaded for faster shell startup
@@ -123,10 +115,6 @@ export PATH=$PATH:$GOPATH/bin
 
 # Rust PATH
 export PATH=$PATH:$HOME/.cargo/bin
-
-# Zoxide
-eval "$(zoxide init zsh)"
-# alias cd="z"
 
 # secrets
 if ! [ -f ~/.zsh_secrets ]; then
