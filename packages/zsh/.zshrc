@@ -18,8 +18,6 @@ zstyle ':omz:update' mode disabled  # disable automatic updates - run `omz updat
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
@@ -29,9 +27,19 @@ plugins=(git)
 # sammenligner fpath tegn for tegn.
 typeset -U fpath
 
-# Only load oh-my-zsh for interactive shells to avoid completion errors
+# Rammeverket koster 130 ms, hvorav 65 ms er bokføring for å avgjøre om
+# completion-cachen må bygges på nytt: git rev-parse i ~/.oh-my-zsh, scutil
+# for vertsnavn, og tre grep mot dumpfila. Vi laster innholdet direkte.
 if [[ -o interactive ]]; then
-  source $ZSH/oh-my-zsh.sh
+  ZSH_CACHE_DIR="$ZSH/cache"
+  ZSH_COMPDUMP="$HOME/.zcompdump-${HOST%%.*}-${ZSH_VERSION}"
+  autoload -Uz compinit
+  # Full sjekk bare hvis dumpen er eldre enn et døgn
+  _zcd=( $ZSH_COMPDUMP(N.mh+24) )
+  (( $#_zcd )) && compinit -i -d $ZSH_COMPDUMP || compinit -C -d $ZSH_COMPDUMP
+  for _f in $ZSH/lib/*.zsh; do source $_f; done
+  source $ZSH/plugins/git/git.plugin.zsh
+  unset _zcd _f
 fi
 
 
@@ -91,22 +99,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
     autoload -Uz compinit
   fi
 
-  # Node version manager - lazy loaded for faster shell startup
-  export NVM_DIR="$HOME/.nvm"
-  lazy_load_nvm() {
-    unset -f nvm node npm npx pnpm yarn
-    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-    # Only load completions in interactive shells to avoid compdef errors
-    if [[ -o interactive ]]; then
-      [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-    fi
-  }
-  nvm() { lazy_load_nvm && nvm "$@"; }
-  node() { lazy_load_nvm && node "$@"; }
-  npm() { lazy_load_nvm && npm "$@"; }
-  npx() { lazy_load_nvm && npx "$@"; }
-  pnpm() { lazy_load_nvm && pnpm "$@"; }
-  yarn() { lazy_load_nvm && yarn "$@"; }
 fi
 
 # GO PATH
