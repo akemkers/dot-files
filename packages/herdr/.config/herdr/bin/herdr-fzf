@@ -149,16 +149,16 @@ preview() {
 
 mode_file="${HERDR_FZF_MODE:-/dev/null}"
 
-# --layout=reverse-list gir prompt nederst og liste top-down, så lista mates inn
-# i naturlig rekkefølge.
+# Default-layout stabler lista oppover fra prompten, så alt samler seg nederst.
+# tac motvirker det slik at lista fortsatt leses top-down.
 case "${1:-}" in
-  --spaces)  echo spaces > "$mode_file"; list_spaces; exit 0 ;;
-  --all)     echo all    > "$mode_file"; list_all;    exit 0 ;;
-  --agents)  echo agents > "$mode_file"; list_agents; exit 0 ;;
+  --spaces)  echo spaces > "$mode_file"; list_spaces | tac; exit 0 ;;
+  --all)     echo all    > "$mode_file"; list_all    | tac; exit 0 ;;
+  --agents)  echo agents > "$mode_file"; list_agents | tac; exit 0 ;;
   --relist)  case "$(cat "$mode_file" 2>/dev/null)" in
-               all)    list_all ;;
-               agents) list_agents ;;
-               *)      list_spaces ;;
+               all)    list_all    | tac ;;
+               agents) list_agents | tac ;;
+               *)      list_spaces | tac ;;
              esac
              exit 0 ;;
   --create)  create_workspace "${2:-}"; exit 0 ;;
@@ -186,8 +186,8 @@ case "${1:-spaces}" in
 esac
 
 selection=$(
-  "$start_list" | fzf --ansi --no-sort --delimiter='\t' --with-nth=2.. \
-    --layout=reverse-list --padding='1,2' \
+  "$start_list" | tac | fzf --ansi --no-sort --delimiter='\t' --with-nth=2.. \
+    --layout=default --padding='1,2' \
     --highlight-line --gutter=' ' --color="$fzf_colors" \
     --prompt="$start_prompt" --pointer='' \
     --header='  ^s spaces  ^w spaces+tabs  ^a agents  ^c new  ^x close' \
