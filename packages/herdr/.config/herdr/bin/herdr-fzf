@@ -115,11 +115,22 @@ list_agents() {
   done
 }
 
+trim() {
+  local s="$1"
+  s="${s#"${s%%[![:space:]]*}"}"
+  s="${s%"${s##*[![:space:]]}"}"
+  printf '%s' "$s"
+}
+
+# Søkefeltet er navnet når det står noe der. Tomt søkefelt spør om navn.
 create_workspace() {
-  local name="${1:-}"
-  read -e -r -i "$name" -p "New space name: " name || return 0
-  name="${name#"${name%%[![:space:]]*}"}"
-  [ -n "$name" ] || return 0
+  local name
+  name=$(trim "${1:-}")
+  if [ -z "$name" ]; then
+    read -e -r -p "New space name: " name || return 0
+    name=$(trim "$name")
+    [ -n "$name" ] || return 0
+  fi
   herdr workspace create --label "$name" --focus >/dev/null
 }
 

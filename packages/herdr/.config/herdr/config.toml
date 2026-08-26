@@ -83,6 +83,10 @@ navigate_workspace_down = "j"
 navigate_pane_up = ""
 navigate_pane_down = ""
 
+# Agents. Samme indekserte mønster som tabs og spaces, i sidebarens rekkefølge.
+# alt krever høyre option i kitty (macos_option_as_alt right).
+focus_agent = "prefix+alt+1..9"
+
 toggle_sidebar = "prefix+b"
 open_notification_target = "prefix+i"
 
@@ -110,7 +114,7 @@ tab_bar_position = "top"
 # catppuccin window text showed the zoom flag
 tab_bar_right = [{ type = "zoom" }]
 
-agent_panel_sort = "priority"
+agent_panel_sort = "spaces"
 show_agent_labels_on_pane_borders = true
 status_indicators = "symbols"
 
@@ -129,17 +133,17 @@ delivery = "system"
 scrollback_limit_bytes = 50000000
 
 # sesh replacement: fzf over spaces and their tabs, enter jumps.
-# type = "pane" i stedet for "popup": popup tvinger en ramme med "popup"-label som
-# ikke kan skrus av. En pane åpnes zoomet og rammeløs, og lukkes når fzf avslutter.
+# Popup, ikke pane: popup tvinger en ramme med "popup"-label som ikke kan skrus
+# av, men en zoomet pane flytter blikket for mye når man bare skal plukke noe.
 [[keys.command]]
 key = "prefix+k"
-type = "pane"
+type = "popup"
 command = "$HOME/.config/herdr/bin/herdr-fzf"
 description = "Spaces"
 
 [[keys.command]]
 key = "prefix+a"
-type = "pane"
+type = "popup"
 command = "$HOME/.config/herdr/bin/herdr-fzf agents"
 description = "Agents"
 
