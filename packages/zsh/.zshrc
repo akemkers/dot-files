@@ -70,6 +70,11 @@ alias gv='lazygit'
 alias nvim-lazy='NVIM_APPNAME="nvim-lazy" nvim'
 alias dvim="docker run --detach-keys='ctrl-z,z' -v utvikler-home:/home/user -v /var/run/docker.sock:/var/run/docker.sock -p 3000:3000 -p 5173:5173 -p 8080:8080 -it --rm dvim zsh"
 
+# Se ndiff.lua i nvim config
+ndiff() {
+  NDIFF=1 nvim -c "NDiff $1"
+}
+
 # Claude path
 export PATH=$PATH:~/.claude/local
 
