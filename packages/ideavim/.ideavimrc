@@ -1,6 +1,9 @@
 set number
 set NERDTree
 
+" targets.vim: iq/aq (nærmeste quote), in/an for neste forekomst
+Plug 'wellle/targets.vim'
+
 " Options
 set clipboard+=unnamed
 set timeoutlen=2000
@@ -36,22 +39,24 @@ nmap <leader><leader> <Action>(RecentFiles)
 
 " navigation
 nmap gi <Action>(GotoImplementation)
-nmap gd <Action>(GotoDeclaration)
-nmap gr <Action>(FindUsages)
+nmap gd <Action>(GotoDeclarationOnly)
+nmap gr <Action>(GotoDeclaration)
 nmap gs <Action>(GotoSuperMethod)
 nmap <c-o> <Action>(Back)
 nmap <c-i> <Action>(Forward)
 nmap <Leader>e <Action>(SelectInProjectView)
 nmap -  <Action>(SelectInProjectView)
 nmap <Leader>dn <Action>(GotoNextError)
+nmap <Leader>dp <Action>(GotoPreviousError)
 
 " version control
 nmap <leader>gv <Action>(ActivateVersionControlToolWindow)
 nmap <leader>hn <Action>(VcsShowNextChangeMarker)
 nmap <leader>hp <Action>(VcsShowPrevChangeMarker)
-nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
-nmap <leader>hd <Action>(Compare.SameVersion)
-nmap <leader>hh <Action>(Git.CompareWithBranch)
+nmap <leader>ghr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>ghd <Action>(Compare.SameVersion)
+" nvim: <leader>gd = CodeDiff mot origin/HEAD. IntelliJ spør om branch.
+nmap <leader>gd <Action>(Git.CompareWithBranch)
 
 " debugging
 nmap <leader>dr <Action>(Resume)
@@ -64,19 +69,14 @@ nmap <leader>dc <Action>(RunToCursor)
 nmap <leader>tr <Action>(RunClass)
 
 " tabs
-nmap <leader>sv <Action>(SplitVertically)
-nmap <leader>sh <Action>(SplitHorizontally)
-nmap <leader>pt <Action>(PinActiveEditorTab)
-nmap <leader>pc <Action>(CloseAllUnpinnedEditors)
+nmap <leader>bp <Action>(PinActiveEditorTab)
+nmap <leader>bP <Action>(CloseAllUnpinnedEditors)
 nmap H <Action>(PreviousTab)
 nmap L <Action>(NextTab)
 nmap <c-h> <Action>(PrevSplitter)
 nmap <c-l> <Action>(NextSplitter)
 nmap <leader>bd <Action>(CloseContent)
 nmap <leader>bo <Action>(CloseAllEditorsButActive)
-
-" Zen 
-nmap <leader>z <Action>(HideAllWindows)
 
 " Indent and keep text selected
 vnoremap > >gv
