@@ -12,6 +12,12 @@ panel_bg = "black"
 # Matches -c "#{pane_current_path}" on the splits
 new_cwd = "follow"
 
+[worktrees]
+# Worktrees ligger sammen med repoene i ~/git, ikke gjemt under ~/.herdr.
+# Herdr legger dem i <directory>/<repo-mappenavn>/<branch>, så repoene må være
+# flate (git/aksjehandel/<repo>), ikke <repo>/main - ellers heter alle mappene "main".
+directory = "~/git/worktrees"
+
 [keys]
 # unbind C-b / set-option -g prefix C-f
 prefix = "ctrl+f"
@@ -146,6 +152,13 @@ key = "prefix+a"
 type = "popup"
 command = "$HOME/.config/herdr/bin/herdr-fzf agents"
 description = "Agents"
+
+# tmux bind ! break-pane. herdr har ingen innebygd action, så den går via skript.
+[[keys.command]]
+key = "prefix+m"
+type = "shell"
+command = "$HOME/.config/herdr/bin/herdr-break-pane"
+description = "Break pane til ny tab"
 
 # vim-tmux-navigator replacement. herdr has no if-shell "$is_vim", so herdr-nav
 # checks the focused pane and either sends the chord into nvim or moves focus.

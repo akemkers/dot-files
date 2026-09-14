@@ -147,17 +147,6 @@ close_target() {
   esac
 }
 
-preview() {
-  case "$1" in
-    *:p*) herdr agent read "$1" --source recent-unwrapped --lines 200 --format ansi ;;
-    *:t*) herdr pane list --workspace "${1%%:*}" |
-            jq -r --arg t "$1" '.result.panes[] | select(.tab_id==$t) |
-              "\(.pane_id)  \(.terminal_title_stripped // "shell")  \(.cwd)"' ;;
-    *)    herdr tab list --workspace "$1" |
-            jq -r '.result.tabs[] | "\(.number)  \(.label)  [\(.agent_status)]"' ;;
-  esac
-}
-
 mode_file="${HERDR_FZF_MODE:-/dev/null}"
 
 # Default-layout stabler lista oppover fra prompten, så alt samler seg nederst.
@@ -174,7 +163,6 @@ case "${1:-}" in
              exit 0 ;;
   --create)  create_workspace "${2:-}"; exit 0 ;;
   --close)   close_target "${2:-}"; exit 0 ;;
-  --preview) preview "$2"; exit 0 ;;
 esac
 
 # Tokyo Night, samme tokens som herdr-temaet bruker i sidebaren. bg+ er
@@ -206,8 +194,7 @@ selection=$(
     --bind="ctrl-w:change-prompt(spaces+tabs ❯ )+reload($self --all)" \
     --bind="ctrl-a:change-prompt(agents ❯ )+reload($self --agents)" \
     --bind="ctrl-c:execute($self --create {q})+abort" \
-    --bind="ctrl-x:execute-silent($self --close {1})+reload($self --relist)" \
-    --preview="$self --preview {1}" --preview-window='right:55%'
+    --bind="ctrl-x:execute-silent($self --close {1})+reload($self --relist)"
 ) || exit 0
 
 id="${selection%%$'\t'*}"

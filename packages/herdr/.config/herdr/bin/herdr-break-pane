@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# tmux break-pane for herdr: flytter panet ut i en ny tab i samme workspace.
+# herdr har ingen innebygd action for dette, så prefix+m går via dette skriptet.
+#
+# Usage: herdr-break-pane [pane_id]   (uten argument: panet som har fokus)
+set -euo pipefail
+
+# Injisert av herdr når den kaller oss, og uavhengig av PATH.
+herdr=${HERDR_BIN_PATH:-herdr}
+
+pane=${1-}
+if [[ -z $pane ]]; then
+  # Serveren kan ha arvet HERDR_PANE_ID fra panet den ble startet fra, så vi
+  # nuller den og lar herdr slå opp panet som faktisk har fokus (som herdr-nav).
+  unset HERDR_PANE_ID HERDR_TAB_ID HERDR_WORKSPACE_ID
+  info=$("$herdr" pane current)
+  [[ $info =~ \"pane_id\":\"([^\"]+)\" ]] || exit 1
+  pane=${BASH_REMATCH[1]}
+fi
+
+exec "$herdr" pane move "$pane" --new-tab >/dev/null
