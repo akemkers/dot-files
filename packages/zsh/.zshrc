@@ -93,6 +93,9 @@ if [[ "$(uname)" == "Darwin" ]]; then
   export PATH="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PATH"
   export PHP_INI_SCAN_DIR="/Users/andreas.foldvik.kemkers/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
+  # Hopper over team-valget i sb1u-wrapperen, `claude --team sparing` overstyrer
+  alias claude='claude --team aksjehandel'
+
   # aws_completer.sh og bob-completion.sh i shrc.d kaller compinit på nytt.
   # Omz har alt initialisert completion, så vi nuller kallene deres.
   # Linja under må stå ordrett. provision-dev finner hooken sin med grep -F,
