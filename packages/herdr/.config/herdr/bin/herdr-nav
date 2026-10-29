@@ -24,7 +24,7 @@ herdr=${HERDR_BIN_PATH:-herdr}
 
 # Prosesser som flytter sine egne vinduer og derfor skal ha tasten selv.
 # Overstyr med f.eks. HERDR_NAV_EDITORS="nvim vim lazygit".
-editors=${HERDR_NAV_EDITORS:-nvim vim vi view nvimdiff vimdiff}
+editors=${HERDR_NAV_EDITORS:-nvim vim vi view nvimdiff vimdiff jetdiff}
 
 # Uten HERDR_PANE_ID slår herdr opp panet som har fokus i UI-et. Serveren kan
 # ha arvet variabelen fra panet den ble startet fra, så vi nuller den her.

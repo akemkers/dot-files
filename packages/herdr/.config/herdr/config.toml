@@ -120,7 +120,7 @@ tab_bar_position = "top"
 # catppuccin window text showed the zoom flag
 tab_bar_right = [{ type = "zoom" }]
 
-agent_panel_sort = "spaces"
+agent_panel_sort = "priority"
 show_agent_labels_on_pane_borders = true
 status_indicators = "symbols"
 
