@@ -1,0 +1,31 @@
+# Felles oppsett. [user] ligger i ~/.gitconfig, som er lokal per maskin.
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
+[core]
+	pager = delta
+	editor = nvim
+	autocrlf = input
+
+[interactive]
+	diffFilter = delta --color-only
+
+[include]
+	path = ~/.config/delta/catppuccin.gitconfig
+
+[delta]
+	features = catppuccin-mocha
+	navigate = true
+	dark = true
+
+[alias]
+	co = checkout
+
+[merge]
+	conflictstyle = zdiff3
+
+[push]
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
