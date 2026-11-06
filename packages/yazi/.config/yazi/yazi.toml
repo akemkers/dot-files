@@ -1,0 +1,10 @@
+[mgr]
+show_hidden = true
+show_symlink = true
+
+[opener]
+# use Neovim for anything you explicitly ask to “edit”
+edit = [
+  { run = 'nvim "$@"', block = true, for   = "unix" }
+]
+
