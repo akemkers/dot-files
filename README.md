@@ -1,71 +1,31 @@
-# config
-Configuration and documentation for my personal development setup
+# dot-files
+Configuration for my personal development setup, managed with [GNU stow](https://www.gnu.org/software/stow/).
 
-
-## How to manage the dotfiles
-Instead of directly copying the dotfiles to their locations on a new system, the project is setup to make use of symlinks through the [GNU stow](https://www.gnu.org/software/stow/) project.
-
-First make sure stow is installed on the target system. Example for mac.
+## Install
 ```
-brew install stow
-```
-## TLDR
-**Note**: Contains mixed macOS and Linux packages. Install selectively per platform rather than using bulk installation.
-
-- **Install single package**: `stow --target=$HOME <package-name>`
-- **Remove single package**: `stow --target=$HOME --delete <package-name>`
-- **Check before install**: Review package contents for platform compatibility 
-
-### File structure
-Stow operates in terms of `packages`. A package is simply a directory under the dotfiles project which contains files to be symlinked.
-
-A package can contain files on its root, or it can contain a directories. 
-The placement of a file should reflect where the symlink is supposed to exist on the target system, relative to the root location provided to `stow`.
-
-Example placing a file directly under home root:
-```
-# The zshrc file goes directly on root, so we place it on the root of the package. 
-
-dotfiles
-  |_zsh
-    |_.zshrc
-
-stow --target=$HOME zsh
+brew install stow   # or the distro package on Linux
+git clone git@github.com:akemkers/dot-files.git ~/.config/dot-files
+~/.config/dot-files/install.sh
 ```
 
-Example: placing a symlink under the .config directory.
+`install.sh` stows the packages for the current OS. Run it again after pulling to pick up new files.
+Arguments are passed on to stow, so `./install.sh -n -v` shows what would change without touching anything.
+
+Git reads `[user]` from `~/.gitconfig`, which is not in the repo. Create it on each machine:
 ```
-# The tmux config goes under '$HOME/.config/tmux/tmux.conf' so we mirror this placement in the package. 
-
-dotfiles
-  |_tmux
-    |_.config
-      |_tmux
-        |_tmux.conf
-
-stow --target=$HOME tmux
+git config --global user.name "..."
+git config --global user.email "..."
 ```
 
- 
-### Installation
-**Installing/updating the symlinks**
-As displayed above you can install a given package by running the stow binary with a package-name as the parameter.
-Use the flag `--target` to tell stow where you want it installed. 
+## Packages
+Each directory under `packages/` mirrors `$HOME`. `packages/tmux/.config/tmux/tmux.conf` becomes `~/.config/tmux/tmux.conf`.
 
-**Warning**: Bulk installation with `stow --target=$HOME */` is not recommended due to mixed platform packages. Install packages individually based on your platform needs.
+`.stowrc` sets `--dir=packages`, `--target=~` and `--no-folding`, so plain `stow <package>` works from the repo root.
+No-folding means stow links each file, never whole directories. Files the tools write themselves (plugins, logs, state) stay outside the repo.
 
+To add a tool:
+1. Move its config into `packages/<name>/` with the same path as under `$HOME`
+2. Add `<name>` to the right list in `install.sh`
+3. Run `stow <name>`
 
-**Uninstalling the symlinks**
-You can delete (or "unstow") a package by adding a the `--delete` flag. 
-
-```
-stow --target=$HOME --delete tmux 
-```
-
-or deleting all symlinked packages from the system.
-```
-stow --target=$HOME --delete */ 
-```
-
-
-
+To remove a package: `stow -D <name>`.
